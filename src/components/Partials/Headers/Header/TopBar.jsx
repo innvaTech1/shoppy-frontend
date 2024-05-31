@@ -52,7 +52,7 @@ export default function TopBar({ className, contact,topBarProps }) {
                     </a>
                   </Link>
                 </li>
-                {defaultCurrency && allCurrency && (
+                {/* {defaultCurrency && allCurrency && (
                     <li>
                       <div className="currencyDropdown">
                         <div className="flex space-x-2 items-center">
@@ -84,7 +84,7 @@ export default function TopBar({ className, contact,topBarProps }) {
                       </div>
 
                     </li>
-                )}
+                )} */}
 
               </ul>
             </div>

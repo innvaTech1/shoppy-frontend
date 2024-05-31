@@ -99,7 +99,7 @@ export default function Layout({ children, childrenClasses }) {
         >
           {children && children}
         </div>
-        {subscribeData && <DiscountBanner datas={subscribeData} />}
+        {/* {subscribeData && <DiscountBanner datas={subscribeData} />} */}
 
         <Footer settings={settings} />
       </div>

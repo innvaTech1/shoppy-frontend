@@ -51,7 +51,7 @@
 /*TODO:  ========= default ========= */
 @layer base {
   :root {
-    --primary-color:blue;
+    --primary-color:#028391;
     --secondary-color:red;
   }
 }
@@ -168,7 +168,7 @@ body {
 .product-specifications ul li::before{
   content: "\2713";
   display: inline-block;
-  color:#FCBF49;
+  color:#028391;
   font-weight: bold;
   border-radius: 50%;
   text-align: center;
@@ -277,11 +277,11 @@ body {
   display: none!important;
 }
 #nprogress .bar {
-  background: #f0932b !important;
+  background: #028391 !important;
   height: 3px !important;
 }
 #nprogress .peg {
-  box-shadow: 0 0 10px #f0932b, 0 0 5px #f0932b !important;
+  box-shadow: 0 0 10px #028391, 0 0 5px #028391 !important;
 
 }
 #nprogress .spinner {
@@ -295,7 +295,7 @@ body {
   height: 4px !important;
 }
 .bank-info-alert::-webkit-scrollbar-thumb {
-  background: #FCBF49;
+  background: #028391;
 }
 .bank-info-alert::-webkit-scrollbar-track {
   background: #f1f1f1;

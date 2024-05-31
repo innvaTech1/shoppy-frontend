@@ -35,7 +35,8 @@ export default function Banner({
             <div className="banner-card xl:flex xl:space-x-[30px] rtl:space-x-0 xl:h-[600px]  mb-[30px] ">
               <div
                 data-aos="fade-right"
-                className={` rtl:ml-[30px] ltr:ml-0 w-full xl:h-full md:h-[500px] h-[220px] xl:mb-0 mb-2 ${sidebarImgOne || sidebarImgTwo ?'xl:w-[740px] w-full':'w-full'}`}
+                // className={` rtl:ml-[30px] ltr:ml-0 w-full xl:h-full md:h-[500px] h-[220px] xl:mb-0 mb-2 ${sidebarImgOne || sidebarImgTwo ?'xl:w-[740px] w-full':'w-full'}`}
+                className=" rtl:ml-[30px] ltr:ml-0 w-full xl:h-full md:h-[500px] h-[220px] xl:mb-0 mb-2"
               >
                 <div className="slider-wrapper w-full h-full">
                   <SimpleSlider settings={settingBanner}>
@@ -86,7 +87,7 @@ export default function Banner({
                   </SimpleSlider>
                 </div>
               </div>
-              <div
+              {/* <div
                   data-aos="fade-left"
                   className="flex-1 flex xl:flex-col flex-row  xl:space-y-[30px] xl:h-full md:h-[350px] h-[150px]"
               >
@@ -246,7 +247,7 @@ export default function Banner({
                     </div>
                 ) }
 
-              </div>
+              </div> */}
             </div>
             <div
               data-aos="fade-up"

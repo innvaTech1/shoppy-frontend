@@ -44,7 +44,7 @@ export default function Home({ homepageData }) {
   return (
     <>
       <Layout childrenClasses="pt-[30px] pb-[60px]">
-        <Ads />
+        {/* <Ads /> */}
         {homepage && homepage.sliders.length>0&& (
           <Banner
             images={homepage.sliders}
@@ -54,12 +54,12 @@ export default function Home({ homepageData }) {
             className="banner-wrapper md:mb-[60px] mb-[30px]"
           />
         )}
-        {homepage && (
+        {/* {homepage && (
           <CategorySection
             categories={homepage.homepage_categories}
             sectionTitle={sectionTitles && sectionTitles.Trending_Category}
           />
-        )}
+        )} */}
         {homepage && (
           <SectionStyleOne
             products={homepage.popularCategoryProducts}
@@ -74,22 +74,22 @@ export default function Home({ homepageData }) {
             className="category-products md:mb-[60px] mb-[30px]"
           />
         )}
-        {homepage && (
+        {/* {homepage && (
           <BrandSection
             brands={homepage.brands.length > 0 ? homepage.brands : []}
             sectionTitle={sectionTitles && sectionTitles.Shop_by_Brand}
             className="brand-section-wrapper md:mb-[60px] mb-[30px]"
           />
-        )}
+        )} */}
 
-        {homepage && (
+        {/* {homepage && (
           <CampaignCountDown
             className="md:mb-[60px] mb-[30px]"
             flashSaleData={homepage.flashSale}
             downloadData={homepage.flashSaleSidebarBanner}
             lastDate={homepage.flashSale.end_time}
           />
-        )}
+        )} */}
         {homepage && (
           <ViewMoreTitle
             className="top-selling-product md:mb-[60px] mb-[30px]"
@@ -106,7 +106,7 @@ export default function Home({ homepageData }) {
           </ViewMoreTitle>
         )}
 
-        {homepage && isMultivendor === 1 && (
+        {/* {homepage && isMultivendor === 1 && (
           <ViewMoreTitle
             className="best-sallers-section md:mb-[60px] mb-[30px]"
             seeMoreUrl="/sellers"
@@ -116,7 +116,7 @@ export default function Home({ homepageData }) {
               sallers={homepage.sellers.length > 0 ? homepage.sellers : []}
             />
           </ViewMoreTitle>
-        )}
+        )} */}
 
         {homepage && (
           <TwoColumnAds
