@@ -172,7 +172,7 @@ export default function Home({ homepageData }) {
             </div>
           </div>
         )}
-        {homepage && (
+        {/* {homepage && (
           <SectionStyleFour
             products={
               homepage.bestProducts.length > 0 ? homepage.bestProducts : []
@@ -181,7 +181,7 @@ export default function Home({ homepageData }) {
             seeMoreUrl={`/products?highlight=best_product`}
             className="category-products md:mb-[60px] mb-[30px]"
           />
-        )}
+        )} */}
       </Layout>
     </>
   );
