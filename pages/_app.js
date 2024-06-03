@@ -7,10 +7,9 @@ import "aos/dist/aos.css";
 import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en.json'
-import ru from 'javascript-time-ago/locale/ru.json'
 
 TimeAgo.addDefaultLocale(en)
-TimeAgo.addLocale(ru)
+
 
 
 import { useEffect, useState } from "react";
@@ -43,6 +42,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 library.add(fas, fab, far);
 
 function MyApp({ Component, pageProps }) {
+  
   const [loginPopup, setLoginPopup] = useState(false);
   const handlerPopup = (value) => {
     setLoginPopup(value);
@@ -63,6 +63,7 @@ function MyApp({ Component, pageProps }) {
     AOS.init();
     
   }, []);
+  
   return (
     <>
       <Provider store={store}>
@@ -73,9 +74,7 @@ function MyApp({ Component, pageProps }) {
               value={{ loginPopup: loginPopup, handlerPopup: handlerPopup }}
           >
             <DefaultLayout>
-              <MaintenanceWrapper>
-                <Component {...pageProps} />
-              </MaintenanceWrapper>
+              <Component {...pageProps} />
             </DefaultLayout>
           </LoginContext.Provider>
         </MessageContext.Provider>

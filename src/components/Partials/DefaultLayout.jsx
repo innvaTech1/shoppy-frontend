@@ -27,6 +27,7 @@ import { firebaseCloudMessaging } from '/firebaseConfig';
 import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
 
 export default function DefaultLayout({ children }) {
+  
   useEffect(() => {
     setToken()
     // this is working
@@ -264,6 +265,7 @@ export default function DefaultLayout({ children }) {
     }
   }, [dispatch, getLoginContexts.loginPopup]);
 
+  console.log('DefaultLayout');
   return (
     <>
       {gtagId && (

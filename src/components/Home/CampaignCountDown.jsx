@@ -92,7 +92,7 @@ export default function CampaignCountDown({
               className="download-app flex-1 lg:h-full h-[430px] xl:p-12 p-5"
               style={{
                 backgroundImage: `url(${
-                  downloadData.image
+                  downloadData?.image
                     ? process.env.NEXT_PUBLIC_BASE_URL + downloadData.image
                     : "/assets/images/download-app-cover.png"
                 })`,
@@ -116,7 +116,7 @@ export default function CampaignCountDown({
                     <div className="bg-white w-[170px] h-[60px] flex justify-center items-center cursor-pointer">
                       <Link
                         href={
-                          downloadData.play_store
+                          downloadData?.play_store
                             ? downloadData.play_store
                             : "#"
                         }
@@ -130,7 +130,7 @@ export default function CampaignCountDown({
                     <div className="bg-white w-[170px] h-[60px] flex justify-center items-center cursor-pointer">
                       <Link
                         href={
-                          downloadData.app_store ? downloadData.app_store : "#"
+                          downloadData?.app_store ? downloadData.app_store : "#"
                         }
                         passHref
                       >
