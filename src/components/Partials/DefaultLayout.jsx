@@ -33,7 +33,6 @@ export default function DefaultLayout({ children }) {
     // this is working
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('message', (event) => {
-        console.log(event);
        const {title,body}=event.data?.firebaseMessagingData?.notification;
        const options = {
         body:body
@@ -53,7 +52,7 @@ export default function DefaultLayout({ children }) {
                 device_token: token,
               })
               .then((res) => {
-                console.log(res.data[0]);
+     //           console.log(res.data[0]);
               })
               .catch((err) => {
                 console.log(err);
@@ -70,9 +69,9 @@ export default function DefaultLayout({ children }) {
 // not working
   function getMessage() {
     const messaging = firebase.messaging()
-    console.log(messaging)
+//    console.log(messaging)
     messaging.onMessage((message) => {
-      console.log(message)
+     // console.log(message)
       const title = message.notification.title;
       const options = {
         body: message.notification.body
@@ -264,8 +263,6 @@ export default function DefaultLayout({ children }) {
       }
     }
   }, [dispatch, getLoginContexts.loginPopup]);
-
-  console.log('DefaultLayout');
   return (
     <>
       {gtagId && (

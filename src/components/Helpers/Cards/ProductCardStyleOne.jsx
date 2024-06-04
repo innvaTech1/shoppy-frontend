@@ -187,11 +187,8 @@ export default function ProductCardStyleOne({ datas }) {
         dispatch(fetchCart());
       }
     } else {
-      localStorage.setItem(
-        "data-hold",
-        JSON.stringify({ type: "add-to-cart", ...data })
-      );
-      loginPopupBoard.handlerPopup(false);
+      localStorage.setItem("data-hold", JSON.stringify({type:"add-to-cart",...data}));
+      // loginPopupBoard.handlerPopup(true);
     }
   };
 
