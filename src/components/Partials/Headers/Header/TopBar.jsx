@@ -1,14 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
-import Arrow from "../../../Helpers/icons/Arrow";
-import Selectbox from "../../../Helpers/Selectbox";
-// import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import auth from "../../../../../utils/auth";
 import { useEffect, useState } from "react";
 import ServeLangItem from "../../../Helpers/ServeLangItem";
-import Multivendor from "../../../Shared/Multivendor";
-export default function TopBar({ className, contact,topBarProps }) {
-  const {allCurrency,defaultCurrency,handler,toggleCurrency,toggleHandler}= topBarProps;
+export default function TopBar({ className, contact }) {
   const [auth, setAuth] = useState(null);
   useEffect(() => {
     setAuth(JSON.parse(localStorage.getItem("auth")));
@@ -52,45 +46,11 @@ export default function TopBar({ className, contact,topBarProps }) {
                     </a>
                   </Link>
                 </li>
-                {/* {defaultCurrency && allCurrency && (
-                    <li>
-                      <div className="currencyDropdown">
-                        <div className="flex space-x-2 items-center">
-                          <span className="text-xs leading-6 text-qblack font-500">Currency:</span>
-                          <div className="w-20 relative">
-                            <button onClick={()=>toggleHandler(!toggleCurrency)} type="button" className=" flex space-x-2 items-center text-xs bg-qblack text-white px-2 py-1 font-500">
-                              <span className="">{defaultCurrency.currency_icon}</span>
-                              <span>{defaultCurrency.currency_code}</span>
-                            </button>
-                            {toggleCurrency && (
-                                <div
-                                    className="w-24 h-[100px] overflow-y-scroll absolute bg-white left-0 top-[40px] z-50 p-2"
-                                    style={{ boxShadow: "0px 15px 50px 0px rgba(0, 0, 0, 0.14)" }}
-                                >
-                                  <ul className="flex flex-col space-y-2">
-                                    {allCurrency && allCurrency.length>0 && allCurrency.map((item,i)=>(
-                                        <li onClick={()=>handler(item)} key={i}>
-                                            <span className="text-qgray text-sm font-400 border-b border-transparent hover:border-qyellow hover:text-qyellow cursor-pointer">
-                                              {item.currency_icon +" "+ item.currency_code}
-                                            </span>
-                                        </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                            )}
-
-                          </div>
-                        </div>
-                      </div>
-
-                    </li>
-                )} */}
-
               </ul>
             </div>
             <div className="topbar-dropdowns lg:block hidden">
-              <div className="flex ltr:space-x-6 rtl:-space-x-0 items-center">
-                <div className="flex ltr:space-x-2 rtl:space-x-0 items-center rtl:ml-2 ltr:ml-0">
+              <div className="flex space-x-3 ltr:space-x-6 rtl:-space-x-0 items-center">
+                <div className="flex space-x-1 ltr:space-x-2 rtl:space-x-1 items-center rtl:ml-2 ltr:ml-0">
                   <span className={`rtl:ml-2 ltr:ml-0`}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +71,7 @@ export default function TopBar({ className, contact,topBarProps }) {
                     {contact && contact.phone}
                   </span>
                 </div>
-                <div className="flex ltr:space-x-2 rtl:space-x-0 items-center ">
+                <div className="flex space-x-1 ltr:space-x-2 rtl:space-x-0 items-center ">
                   <span className={`rtl:ml-2 ltr:ml-0`}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -132,54 +92,8 @@ export default function TopBar({ className, contact,topBarProps }) {
                     {contact && contact.email}
                   </span>
                 </div>
-                {/*<div className="country-select flex space-x-1 items-center">*/}
-                {/*  <div>*/}
-                {/*    <Image*/}
-                {/*      src={`/assets/images/country-logo-16x16.png`}*/}
-                {/*      width="16"*/}
-                {/*      height="16"*/}
-                {/*      alt="country logo"*/}
-                {/*      className="overflow-hidden rounded-full"*/}
-                {/*    />*/}
-                {/*  </div>*/}
-                {/*  <Selectbox*/}
-                {/*    className="w-fit"*/}
-                {/*    defaultValue="United State"*/}
-                {/*    datas={[*/}
-                {/*      { id: 1, name: "United State" },*/}
-                {/*      { id: 2, name: "Bangladesh" },*/}
-                {/*      { id: 3, name: "India" },*/}
-                {/*    ]}*/}
-                {/*  />*/}
-                {/*  <div>*/}
-                {/*    <Arrow className="fill-current qblack" />*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-                {/*<div className="currency-select flex space-x-1 items-center">*/}
-                {/*  <Selectbox*/}
-                {/*    defaultValue="USD"*/}
-                {/*    className="w-fit"*/}
-                {/*    datas={[*/}
-                {/*      { id: 1, name: "USD" },*/}
-                {/*      { id: 2, name: "BDT" },*/}
-                {/*    ]}*/}
-                {/*  />*/}
-                {/*  <Arrow className="fill-current qblack" />*/}
-                {/*</div>*/}
-                {/*<div className="language-select flex space-x-1 items-center">*/}
-                {/*  <Selectbox*/}
-                {/*    defaultValue="Bangla"*/}
-                {/*    className="w-fit"*/}
-                {/*    datas={[*/}
-                {/*      { id: 1, name: "Bangla" },*/}
-                {/*      { id: 2, name: "English" },*/}
-                {/*    ]}*/}
-                {/*  />*/}
-                {/*  <Arrow className="fill-current qblack" />*/}
-                {/*</div>*/}
               </div>
             </div>
-
           </div>
         </div>
       </div>
