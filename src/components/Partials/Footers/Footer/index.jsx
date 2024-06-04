@@ -63,28 +63,25 @@ export default function Footer({ settings }) {
   return (
     <footer className="footer-section-wrapper bg-white print:hidden">
       <div className="container-x block mx-auto pt-[56px]">
-        <div className="w-full flex flex-col items-center mb-[50px]">
-          {/* logo area */}
-          <div className="mb-[40px]">
-            <Link href="/" passHref>
-              <a>
-                {settings && (
-                  <Image
-                    width="153"
-                    height="44"
-                    objectFit="scale-down"
-                    src={`${process.env.NEXT_PUBLIC_BASE_URL + settings.logo}`}
-                    alt="logo"
-                  />
-                )}
-              </a>
-            </Link>
-          </div>
-          <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
-        </div>
         <div className="lg:flex justify-between mb-[50px]">
           <div className="lg:w-[424px]  ml-0 w-full mb-10 lg:mb-0">
-            <h1 className="text-[18] font-500 text-[#2F2F2F] mb-5">About Us</h1>
+            <div className="mb-4">
+              <Link href="/" passHref>
+                <a>
+                  {settings && (
+                    <Image
+                      width="153"
+                      height="44"
+                      objectFit="scale-down"
+                      src={`${
+                        process.env.NEXT_PUBLIC_BASE_URL + settings.logo
+                      }`}
+                      alt="logo"
+                    />
+                  )}
+                </a>
+              </Link>
+            </div>
             <p className="text-[#9A9A9A] text-[15px] w-[247px] leading-[28px]">
               {footerContent && footerContent.about_us}
             </p>
