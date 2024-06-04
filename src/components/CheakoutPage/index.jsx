@@ -34,8 +34,6 @@ function CheakoutPage() {
   const [address, setAddress] = useState("");
   const [home, setHome] = useState(true);
   const [office, setOffice] = useState(false);
-  const [countryDropdown, setCountryDropdown] = useState(null);
-  const [country, setCountry] = useState(null);
   const [stateDropdown, setStateDropdown] = useState(null);
   const [state, setState] = useState(null);
   const [cityDropdown, setCityDropdown] = useState(null);
@@ -263,32 +261,17 @@ function CheakoutPage() {
       });
   };
   useEffect(() => {
+    console.log('res')
     if (auth()) {
       getAllAddress();
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address/create?token=${
-            auth().access_token
-          }`
-        )
-        .then((res) => {
-          if (res.data) {
-            setCountryDropdown(res.data.countries);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
+    getState();
   }, []);
-  const getState = (value) => {
-    if (auth() && value) {
-      setCountry(value.id);
+  const getState = () => {
+    if (auth()) {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/state-by-country/${
-            value.id
-          }?token=${auth().access_token}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/state-by-country?token=${auth().access_token}`
         )
         .then((res) => {
           setCityDropdown(null);
@@ -335,7 +318,6 @@ function CheakoutPage() {
           phone: phone,
           address: address,
           type: home ? home : office ? office : null,
-          country: country,
           state: state,
           city: city,
         })
@@ -346,7 +328,6 @@ function CheakoutPage() {
           setEmail("");
           setPhone("");
           setAddress("");
-          setCountryDropdown(null);
           setStateDropdown(null);
           setCityDropdown(null);
           setErrors(null);
@@ -985,14 +966,6 @@ function CheakoutPage() {
                                       </tr>
                                       <tr className="flex mb-3">
                                         <td className="text-base text-qgraytwo w-[70px] block line-clamp-1 capitalize">
-                                          {ServeLangItem()?.Country}:
-                                        </td>
-                                        <td className="text-base text-qblack line-clamp-1 font-medium">
-                                          {address.country.name}
-                                        </td>
-                                      </tr>
-                                      <tr className="flex mb-3">
-                                        <td className="text-base text-qgraytwo w-[70px] block line-clamp-1 capitalize">
                                           {ServeLangItem()?.State}:
                                         </td>
                                         <td className="text-base text-qblack line-clamp-1 font-medium">
@@ -1092,14 +1065,6 @@ function CheakoutPage() {
                                         </td>
                                         <td className="text-base text-qblack line-clamp-1 font-medium">
                                           {address.phone}
-                                        </td>
-                                      </tr>
-                                      <tr className="flex mb-3">
-                                        <td className="text-base text-qgraytwo w-[70px] block line-clamp-1 capitalize">
-                                          {ServeLangItem()?.Country}:
-                                        </td>
-                                        <td className="text-base text-qblack line-clamp-1 font-medium">
-                                          {address.country.name}
                                         </td>
                                       </tr>
                                       <tr className="flex mb-3">
@@ -1233,58 +1198,6 @@ function CheakoutPage() {
                                 ""
                               )}
                             </div>
-                          </div>
-                          <div className="mb-6">
-                            <h1 className="input-label capitalize block  mb-2 text-qgray text-[13px] font-normal">
-                              {ServeLangItem()?.Country}*
-                            </h1>
-                            <div
-                              className={`w-full h-[50px] border px-5 flex justify-between items-center mb-2 ${
-                                !!(errors && Object.hasOwn(errors, "country"))
-                                  ? "border-qred"
-                                  : "border-[#EDEDED]"
-                              }`}
-                            >
-                              <Selectbox
-                                action={getState}
-                                className="w-full"
-                                defaultValue="Select"
-                                datas={countryDropdown && countryDropdown}
-                              >
-                                {({ item }) => (
-                                  <>
-                                    <div className="flex justify-between items-center w-full">
-                                      <div>
-                                        <span className="text-[13px] text-qblack">
-                                          {item}
-                                        </span>
-                                      </div>
-                                      <span>
-                                        <svg
-                                          width="11"
-                                          height="7"
-                                          viewBox="0 0 11 7"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M5.4 6.8L0 1.4L1.4 0L5.4 4L9.4 0L10.8 1.4L5.4 6.8Z"
-                                            fill="#222222"
-                                          />
-                                        </svg>
-                                      </span>
-                                    </div>
-                                  </>
-                                )}
-                              </Selectbox>
-                            </div>
-                            {errors && Object.hasOwn(errors, "country") ? (
-                              <span className="text-sm mt-1 text-qred">
-                                {errors.country[0]}
-                              </span>
-                            ) : (
-                              ""
-                            )}
                           </div>
                           <div className="flex space-x-5 items-center mb-6">
                             <div className="w-1/2">
