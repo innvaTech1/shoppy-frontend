@@ -228,7 +228,7 @@ export default function ProductView({
       }
     } else {
       localStorage.setItem("data-hold", JSON.stringify({type:"add-to-cart",...data}));
-      loginPopupBoard.handlerPopup(true);
+      loginPopupBoard.handlerPopup(false);
     }
   };
 

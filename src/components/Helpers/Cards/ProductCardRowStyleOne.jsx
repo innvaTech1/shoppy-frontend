@@ -19,7 +19,7 @@ import Star from "../icons/Star";
 import ThinLove from "../icons/ThinLove";
 import ServeLangItem from "../ServeLangItem";
 import LoginContext from "../../Contexts/LoginContext";
-import CurrencyConvert from '../../Shared/CurrencyConvert';
+import CurrencyConvert from "../../Shared/CurrencyConvert";
 const Redirect = () => {
   return (
     <div className="flex space-x-2 items-center">
@@ -96,15 +96,15 @@ export default function ProductCardRowStyleOne({ className, datas }) {
       token: auth() && auth().access_token,
       quantity: 1,
       variants:
-          getFirstVarients &&
-          getFirstVarients.length > 0 &&
-          getFirstVarients.map((v) =>
-              v ? parseInt(v.product_variant_id) : null
-          ),
+        getFirstVarients &&
+        getFirstVarients.length > 0 &&
+        getFirstVarients.map((v) =>
+          v ? parseInt(v.product_variant_id) : null
+        ),
       variantItems:
-          getFirstVarients &&
-          getFirstVarients.length > 0 &&
-          getFirstVarients.map((v) => (v ? v.id : null)),
+        getFirstVarients &&
+        getFirstVarients.length > 0 &&
+        getFirstVarients.map((v) => (v ? v.id : null)),
     };
     if (auth()) {
       if (varients) {
@@ -152,8 +152,11 @@ export default function ProductCardRowStyleOne({ className, datas }) {
         dispatch(fetchCart());
       }
     } else {
-      localStorage.setItem("data-hold", JSON.stringify({type:"add-to-cart",...data}));
-      loginPopupBoard.handlerPopup(true);
+      localStorage.setItem(
+        "data-hold",
+        JSON.stringify({ type: "add-to-cart", ...data })
+      );
+      loginPopupBoard.handlerPopup(false);
     }
   };
   useEffect(() => {
@@ -241,13 +244,21 @@ export default function ProductCardRowStyleOne({ className, datas }) {
       >
         <div className="flex space-x-5 items-center w-full h-full lg:p-[30px] sm:p-5 p-2">
           <div className="lg:w-1/2 w-1/3 h-full relative transform scale-100 group-hover:scale-110 transition duration-300 ease-in-ou">
-            <Image
-              layout="fill"
-              objectFit="scale-down"
-              src={`${datas.image}`}
-              alt=""
-              className="w-full h-full object-contain"
-            />
+            <Link
+              href={{
+                pathname: "/single-product",
+                query: { slug: datas.slug },
+              }}
+              passHref
+            >
+              <Image
+                layout="fill"
+                objectFit="scale-down"
+                src={`${datas.image}`}
+                alt=""
+                className="w-full h-full object-contain"
+              />
+            </Link>
           </div>
           <div className="flex-1 flex flex-col justify-center h-full">
             <div>
@@ -293,14 +304,17 @@ export default function ProductCardRowStyleOne({ className, datas }) {
                   }`}
                 >
                   {offerPrice ? (
-                    <span> <CurrencyConvert price={price}/></span>
+                    <span>
+                      {" "}
+                      <CurrencyConvert price={price} />
+                    </span>
                   ) : (
                     <>
                       {isProductInFlashSale && (
                         <span
                           className={`line-through text-qgray font-500 text-[16px] mr-2`}
                         >
-                           <CurrencyConvert price={price}/>
+                          <CurrencyConvert price={price} />
                         </span>
                       )}
                       <CheckProductIsExistsInFlashSale
@@ -322,7 +336,7 @@ export default function ProductCardRowStyleOne({ className, datas }) {
                   </span>
                 )}
               </p>
-              <button
+              {/* <button
                 onClick={() => addToCart(datas.id)}
                 type="button"
                 className="w-[110px] h-[30px]"
@@ -330,7 +344,7 @@ export default function ProductCardRowStyleOne({ className, datas }) {
                 <span className="yellow-btn">
                   {ServeLangItem()?.Add_To_Cart}
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -371,7 +385,6 @@ export default function ProductCardRowStyleOne({ className, datas }) {
             type="button"
             onClick={() => productCompare(datas.id)}
           >
-
             <span className="hover:bg-qyellow w-10 h-10 flex justify-center text-black hover:text-white transition-all duration-300 ease-in-out items-center hover-bg-qyellow bg-primarygray rounded">
               <Compair className="fill-current" />
             </span>
