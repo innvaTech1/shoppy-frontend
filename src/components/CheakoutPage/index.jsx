@@ -803,6 +803,8 @@ function CheakoutPage() {
     }
   };
 
+  console.log(shippingRulesByCityId);
+
   return (
     <>
       {carts && (
@@ -1480,70 +1482,34 @@ function CheakoutPage() {
                                 <>
                                   {parseInt(rule.condition_from) <=
                                     parseInt(totalPrice) && (
-                                    <>
-                                      {parseInt(rule.condition_to) >=
-                                      parseInt(totalPrice) ? (
-                                        <div className="flex justify-between items-center">
-                                          <div className="flex space-x-2.5 rtl:space-x-reverse items-center">
-                                            <div className="input-radio">
-                                              <input
-                                                onChange={(e) =>
-                                                  selectedRuleHandler(
-                                                    e,
-                                                    rule.shipping_fee
-                                                  )
-                                                }
-                                                value={rule.id}
-                                                type="radio"
-                                                name="price"
-                                                className="accent-pink-500"
-                                              />
-                                            </div>
-                                            <span className="text-[15px] text-normal text-qgraytwo">
-                                              {rule.shipping_rule}
-                                            </span>
-                                          </div>
-                                          <span
-                                            suppressHydrationWarning
-                                            className="text-[15px] text-normal text-qgraytwo"
-                                          >
-                                            
-                                              <CurrencyConvert price={rule.shipping_fee}/>
-                                          </span>
+                                    <div className="flex justify-between items-center">
+                                      <div className="flex space-x-2.5 items-center">
+                                        <div className="input-radio">
+                                          <input
+                                            onChange={(e) =>
+                                              selectedRuleHandler(
+                                                e,
+                                                rule.shipping_fee
+                                              )
+                                            }
+                                            value={rule.id}
+                                            type="radio"
+                                            name="price"
+                                            className="accent-pink-500"
+                                          />
                                         </div>
-                                      ) : parseInt(rule.condition_to) === -1 ? (
-                                        <div className="flex justify-between items-center">
-                                          <div className="flex space-x-2.5 items-center">
-                                            <div className="input-radio">
-                                              <input
-                                                onChange={(e) =>
-                                                  selectedRuleHandler(
-                                                    e,
-                                                    rule.shipping_fee
-                                                  )
-                                                }
-                                                value={rule.id}
-                                                type="radio"
-                                                name="price"
-                                                className="accent-pink-500"
-                                              />
-                                            </div>
-                                            <span className="text-[15px] text-normal text-qgraytwo">
-                                              {rule.shipping_rule}
-                                            </span>
-                                          </div>
-                                          <span
-                                            suppressHydrationWarning
-                                            className="text-[15px] text-normal text-qgraytwo"
-                                          >
-                                            <CurrencyConvert price={rule.shipping_fee}/>
-                                          
-                                          </span>
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </>
+                                        <span className="text-[15px] text-normal text-qgraytwo">
+                                          {rule.shipping_rule}
+                                        </span>
+                                      </div>
+                                      <span
+                                        suppressHydrationWarning
+                                        className="text-[15px] text-normal text-qgraytwo"
+                                      >
+                                        <CurrencyConvert price={rule.shipping_fee} />
+
+                                      </span>
+                                    </div>
                                   )}
                                 </>
                               ):rule.type === "base_on_weight" ? (
