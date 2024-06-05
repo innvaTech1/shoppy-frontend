@@ -114,12 +114,15 @@ export default {
       method: "GET",
       url: `cart-clear?token=${data.token}`,
     }),
-  saveAddress: (token, data) =>
-    instance({
+  saveAddress: (token, data) => {
+    console.log(data);
+    return instance({
       method: "POST",
       url: `user/address?token=${token}`,
       data,
-    }),
+    })
+  }
+  ,
   editAddress: (id, token) =>
     instance({
       method: "GET",
@@ -227,7 +230,7 @@ export default {
       method: "DELETE",
       url: `user/remove-account?token=${token}`,
     }),
-  pushNotification: (token,data) =>
+  pushNotification: (token, data) =>
     instance({
       method: "POST",
       url: `user/update-device-token?token=${token}`,

@@ -154,69 +154,7 @@ function CheakoutPage() {
       )
       .then((res) => {
         const {cartProducts} = res.data;
-        setSslStatus(
-          !!(
-            res.data &&
-            res.data.sslcommerz &&
-            parseInt(res.data.sslcommerz.status) === 1
-          )
-        );
-        setPaypalStatus(
-          !!(
-            res.data &&
-            res.data.paypalPaymentInfo &&
-            parseInt(res.data.paypalPaymentInfo.status) === 1
-          )
-        );
-        setPayStackStatus(
-          !!(
-            res.data &&
-            res.data.paystackAndMollie &&
-            parseInt(res.data.paystackAndMollie.paystack_status) === 1
-          )
-        );
-        setInstaMojoStatus(
-          !!(
-            res.data &&
-            res.data.instamojo &&
-            parseInt(res.data.instamojo.status) === 1
-          )
-        );
-        setFatoorahStatus(
-          !!(
-            res.data &&
-            res.data.myfatoorah &&
-            parseInt(res.data.myfatoorah.status) === 1
-          )
-        );
-        setMollieStatus(
-          !!(
-            res.data &&
-            res.data.paystackAndMollie &&
-            parseInt(res.data.paystackAndMollie.mollie_status) === 1
-          )
-        );
-        setFlutterWaveStatus(
-          !!(
-            res.data &&
-            res.data.flutterwavePaymentInfo &&
-            parseInt(res.data.flutterwavePaymentInfo.status) === 1
-          )
-        );
-        setRezorPay(
-          !!(
-            res.data &&
-            res.data.razorpayPaymentInfo &&
-            parseInt(res.data.razorpayPaymentInfo.status) === 1
-          )
-        );
-        setStripeStatus(
-          !!(
-            res.data &&
-            res.data.stripePaymentInfo &&
-            parseInt(res.data.stripePaymentInfo.status) === 1
-          )
-        );
+        
         setCashOnDeliveryStatus(
           !!(
             res.data &&
@@ -240,9 +178,9 @@ function CheakoutPage() {
               res.data.shippings.length > 0 &&
               res.data.shippings.filter((s) => parseInt(s.city_id) === 0);
         });
-        res.data && setAddresses(res.data.addresses);
-        setShipping(res.data && res.data.addresses[0].id);
-        setBilling(res.data && res.data.addresses[0].id);
+        res.data && setAddresses(res.data?.addresses);
+        setShipping(res.data && res.data?.addresses[0]?.id);
+        setBilling(res.data && res.data?.addresses[0]?.id);
         const cp = localStorage.getItem("coupon");
         if (cp) {
           let crrDate = new Date().toLocaleDateString();
@@ -261,7 +199,6 @@ function CheakoutPage() {
       });
   };
   useEffect(() => {
-    console.log('res')
     if (auth()) {
       getAllAddress();
     }
@@ -310,9 +247,14 @@ function CheakoutPage() {
   };
   const saveAddress = async () => {
     setLoading(true);
-    if (auth()) {
-      apiRequest
-        .saveAddress(auth().access_token, {
+
+    console.log("data");
+
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address/store?token=${auth().access_token
+        }`,
+        {
           name: fName && lName ? fName + " " + lName : null,
           email: email,
           phone: phone,
@@ -320,34 +262,60 @@ function CheakoutPage() {
           type: home ? home : office ? office : null,
           state: state,
           city: city,
-        })
-        .then((res) => {
-          setLoading(false);
-          setFname("");
-          setlname("");
-          setEmail("");
-          setPhone("");
-          setAddress("");
-          setStateDropdown(null);
-          setCityDropdown(null);
-          setErrors(null);
-          getAllAddress();
-          setNewAddress(false);
-          toast.success(res.data && res.data.notification, {
-            autoClose: 1000,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-          err.response && setErrors(err.response.data.errors);
-          if(err.response.status===403){
-            toast.error( err.response.data.message);
-          }
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        setFname("");
+        setlname("");
+        setEmail("");
+        setPhone("");
+        setAddress("");
+        setCityDropdown(null);
+        setErrors(null);
+        getAllAddress();
+        setNewAddress(false);
+        toast.success('created', {
+          autoClose: 1000,
         });
-    } else {
-      return false;
-    }
+      })
+    // if (auth()) {
+    //   apiRequest
+    //     .saveAddress(auth().access_token, {
+    //       name: fName && lName ? fName + " " + lName : null,
+    //       email: email,
+    //       phone: phone,
+    //       address: address,
+    //       type: home ? home : office ? office : null,
+    //       state: state,
+    //       city: city,
+    //     })
+    //     .then((res) => {
+    //       setLoading(false);
+    //       setFname("");
+    //       setlname("");
+    //       setEmail("");
+    //       setPhone("");
+    //       setAddress("");
+    //       setCityDropdown(null);
+    //       setErrors(null);
+    //       getAllAddress();
+    //       setNewAddress(false);
+    //       toast.success(res.data && res.data.notification, {
+    //         autoClose: 1000,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       setLoading(false);
+    //       err.response && setErrors(err.response.data.errors);
+    //       if(err.response.status===403){
+    //         toast.error( err.response.data.message);
+    //       }
+    //     });
+    // } else {
+    //   return false;
+    // }
   };
   // parseInt(item.qty)
   useEffect(() => {

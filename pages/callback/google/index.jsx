@@ -9,34 +9,52 @@ import { useDispatch } from "react-redux";
 function Index() {
     const route = useRouter();
     const dispatch = useDispatch();
-    const [res,setRes]=useState(true);
+    const [res, setRes] = useState(true);
 
-    useEffect(()=>{
-       if(res){
-           if(route && route.query?.code){
-               axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/callback/google?authuser=${route.query.authuser}&code=${route.query.code}&prompt=${route.query.prompt}&scope=${route.query.scope}`).then((res)=>{
 
-                   localStorage.removeItem("auth");
-                   localStorage.setItem("auth", JSON.stringify(res.data));
-                   dispatch(fetchWishlist());
-                   route.push("/");
-                   if(res){
-                       setRes(true)
-                   }
-                   toast.success("Login Successfull");
-               }).catch((er)=>{
-                   setRes(true)
-                   console.log(er);
-               })
-           }
-       }else{
-           return false;
-       }
-    },[res])
+    useEffect(() => {
+        if (res) {
+            // if (route && route.query?.code) {
+            //     axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/callback/google?authuser=${route.query.authuser}&code=${route.query.code}&prompt=${route.query.prompt}&scope=${route.query.scope}`).then((res) => {
+
+            //         localStorage.removeItem("auth");
+            //         localStorage.setItem("auth", JSON.stringify(res.data));
+            //         dispatch(fetchWishlist());
+            //         route.push("/");
+            //         if (res) {
+            //             setRes(false)
+            //         }
+            //         toast.success("Login Successfull");
+            //     }).catch((er) => {
+            //         setRes(false)
+            //         console.log(er);
+            //     })
+            // }
+            if (route && route?.asPath) {
+                axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api${route?.asPath}`).then((res) => {
+
+                    localStorage.removeItem("auth");
+                    localStorage.setItem("auth", JSON.stringify(res.data));
+                    dispatch(fetchWishlist());
+                    route.push("/");
+                    if (res) {
+                        setRes(false)
+                    }
+                    toast.success("Login Successfull");
+                }).catch((er) => {
+                    setRes(false)
+                    console.log(er);
+                })
+            }
+        } else {
+        }
+    }, [res])
+
+    console.log(res)
     return (
         <>
-            <div className="w-full h-screen bg-black bg-opacity-70 flex justify-center items-center relative" style={{zIndex:9999999999999999}}>
-                <LoaderStyleOne/>
+            <div className="w-full h-screen bg-black bg-opacity-70 flex justify-center items-center relative" style={{ zIndex: 9999999999999999 }}>
+                <LoaderStyleOne />
             </div>
         </>
     );
