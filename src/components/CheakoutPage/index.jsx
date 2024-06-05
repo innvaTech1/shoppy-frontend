@@ -1,12 +1,12 @@
 import axios from "axios";
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {toast} from "react-toastify";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import apiRequest from "../../../utils/apiRequest";
 import auth from "../../../utils/auth";
 import wordCount from "../../../utils/wordCount";
-import {fetchCart} from "../../store/Cart";
+import { fetchCart } from "../../store/Cart";
 import InputCom from "../Helpers/InputCom";
 import LoaderStyleOne from "../Helpers/Loaders/LoaderStyleOne";
 import PageTitle from "../Helpers/PageTitle";
@@ -15,9 +15,8 @@ import Selectbox from "../Helpers/Selectbox";
 import isAuth from "../../../Middleware/isAuth";
 import DateFormat from "../../../utils/DateFormat";
 import settings from "../../../utils/settings";
-import Sslcommerce from "../Helpers/icons/Sslcommerce";
-import CheckProductIsExistsInFlashSale from "../Shared/CheckProductIsExistsInFlashSale";
 import ServeLangItem from "../Helpers/ServeLangItem";
+import CheckProductIsExistsInFlashSale from "../Shared/CheckProductIsExistsInFlashSale";
 import CurrencyConvert from "../Shared/CurrencyConvert";
 
 function CheakoutPage() {
@@ -64,6 +63,10 @@ function CheakoutPage() {
   const [couponCode, setCouponCode] = useState(null);
   // const [totalAmountWithCalc, setTotalAmountWithCalc] = useState(null);
   const [bankInfo, setBankInfo] = useState(null);
+  const [bkashInfo, setBkashInfo] = useState(null);
+  const [rocketInfo, setRocketInfo] = useState(null);
+  const [nagadInfo, setNagadInfo] = useState(null);
+
   const [discountCoupon, setDiscountCoupon] = useState(0);
   useEffect(() => {
     if (couponCode) {
@@ -89,16 +92,11 @@ function CheakoutPage() {
 
   //bank status
   const [cashOnDeliveryStatus, setCashOnDeliveryStatus] = useState(null);
-  const [stripeStatus, setStripeStatus] = useState(null);
-  const [rezorPayStatue, setRezorPay] = useState(null);
-  const [flutterWaveStatus, setFlutterWaveStatus] = useState(null);
-  const [mollieStatus, setMollieStatus] = useState(null);
-  const [fatoorahStatus, setFatoorahStatus] = useState(null);
-  const [instaMojoStatus, setInstaMojoStatus] = useState(null);
-  const [payStackStatus, setPayStackStatus] = useState(null);
-  const [paypalStatus, setPaypalStatus] = useState(null);
+  const [bkashStatus, setBkashStatus] = useState(null);
+  const [rocketStatus, setRocketStatus] = useState(null);
+  const [nagadStatus, setNagadStatus] = useState(null);
+
   const [bankPaymentStatus, setBankPaymentStatus] = useState(null);
-  const [sslStatus, setSslStatus] = useState(null);
   const [totalWeight, setTotalWeight] = useState(null);
   const [totalQty, setQty] = useState(null);
 
@@ -148,12 +146,11 @@ function CheakoutPage() {
   const getAllAddress = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}api/user/checkout?token=${
-          auth().access_token
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/user/checkout?token=${auth().access_token
         }`
       )
       .then((res) => {
-        const {cartProducts} = res.data;
+        const { cartProducts } = res.data;
         setCashOnDeliveryStatus(
           !!(
             res.data &&
@@ -168,14 +165,42 @@ function CheakoutPage() {
             parseInt(res.data.bankPaymentInfo.status) === 1
           )
         );
+        setBkashStatus(
+          !!(
+            res.data &&
+            res.data.bkash &&
+            parseInt(res.data.bkash.status) === 1
+          )
+        );
+        setRocketStatus(
+          !!(
+            res.data &&
+            res.data.rocket &&
+            parseInt(res.data.rocket.status) === 1
+          )
+        );
+        setNagadStatus(
+          !!(
+            res.data &&
+            res.data.nagad &&
+            parseInt(res.data.nagad.status) === 1
+          )
+        );
         setBankInfo(
           res.data && res.data.bankPaymentInfo && res.data.bankPaymentInfo
         );
+
+        // set mobile banking info
+        setBkashInfo(res.data && res.data.bkash && res.data.bkash);
+        setRocketInfo(res.data && res.data.rocket && res.data.rocket);
+        setNagadInfo(res.data && res.data.nagad && res.data.nagad);
+
+
         setShipppingRules(res.data && res.data.shippings);
         setShippingRulesByCityId(() => {
           return res.data &&
-              res.data.shippings.length > 0 &&
-              res.data.shippings.filter((s) => parseInt(s.city_id) === 0);
+            res.data.shippings.length > 0 &&
+            res.data.shippings.filter((s) => parseInt(s.city_id) === 0);
         });
         res.data && setAddresses(res.data?.addresses);
         setShipping(res.data && res.data?.addresses[0]?.id);
@@ -225,8 +250,7 @@ function CheakoutPage() {
       setState(value.id);
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/city-by-state/${
-            value.id
+          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/city-by-state/${value.id
           }?token=${auth().access_token}`
         )
         .then((res) => {
@@ -452,7 +476,7 @@ function CheakoutPage() {
     );
     if (getRules && getRules.length > 0) {
       const isIncluded = shippingRulesByCityId.some((value) =>
-          getRules.includes(value)
+        getRules.includes(value)
       );
       if (isIncluded) {
         return setShippingRulesByCityId([...defaultRule, ...getRules]);
@@ -465,7 +489,7 @@ function CheakoutPage() {
       }
     } else {
       const defaultRule = shippingRules.filter(
-          (item) => parseInt(item.city_id) === 0
+        (item) => parseInt(item.city_id) === 0
       );
       setShippingRulesByCityId(defaultRule);
     }
@@ -533,213 +557,7 @@ function CheakoutPage() {
                   console.log(err);
                   toast.success(err.response && err.response.message);
                 });
-            } else if (selectPayment && selectPayment === "stripe") {
-              setStrpLoading(true);
-              await apiRequest
-                .stipePay(
-                  {
-                    agree_terms_condition: 1,
-                    card_number: strpeNumber,
-                    year: expireDate && expireDate.formated.year,
-                    month: expireDate && expireDate.formated.month,
-                    cvv: cvv,
-                    card_holder_name: cardHolderName,
-                    shipping_address_id: selectedShipping,
-                    billing_address_id: selectedBilling,
-                    shipping_method_id: parseInt(selectedRule),
-                    coupon: couponCode && couponCode.code,
-                  },
-                  auth().access_token
-                )
-                .then((res) => {
-                  toast.success(res.data && res.data.message);
-                  router.push(`/order/${res.data.order_id}`);
-                  console.log(res);
-                  dispatch(fetchCart());
-                  setStrpError(null);
-                  setHolderName("");
-                  setExpireDate(null);
-                  setCvv("");
-                  setStrpeNumber("");
-                  setPaymentMethod("");
-                  setStrpLoading(false);
-                  localStorage.removeItem("coupon_set_date");
-                  localStorage.removeItem("coupon");
-                })
-                .catch((err) => {
-                  setStrpLoading(false);
-                  setStrpError(err.response && err.response.data.errors);
-                  console.error(err);
-                });
-            } else if (selectPayment && selectPayment === "paypal") {
-              setStrpLoading(true);
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/paypal-react-web-view?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&success_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/order/"
-                  : ""
-              }&faild_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/payment-faild"
-                  : ""
-              }`;
-              router.push(url);
-              localStorage.removeItem("coupon_set_date");
-              localStorage.removeItem("coupon");
-            } else if (selectPayment && selectPayment === "razorpay") {
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/razorpay-order?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}`;
-              await axios
-                .get(url)
-                .then((res) => {
-                  const order_id = res.data && res.data.order_id;
-                  const amount = res.data && res.data.amount;
-                  if (res.data) {
-                    const provideUrl = `${
-                      process.env.NEXT_PUBLIC_BASE_URL
-                    }user/checkout/razorpay-web-view?token=${
-                      auth().access_token
-                    }&shipping_address_id=${selectedShipping}&coupon=${
-                      couponCode && couponCode.code
-                    }&billing_address_id=${selectedBilling}&shipping_method_id=${parseInt(
-                      selectedRule
-                    )}&frontend_success_url=${
-                      typeof window !== "undefined" && window.location.origin
-                        ? window.location.origin + "/order/"
-                        : ""
-                    }&frontend_faild_url=${
-                      typeof window !== "undefined" && window.location.origin
-                        ? window.location.origin + "/payment-faild"
-                        : ""
-                    }&request_from=react_web&amount=${amount}&order_id=${order_id}`;
-                    router.push(provideUrl);
-                    localStorage.removeItem("coupon_set_date");
-                    localStorage.removeItem("coupon");
-                  }
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            } else if (selectPayment && selectPayment === "flutterWave") {
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/flutterwave-web-view?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/order/"
-                  : ""
-              }&frontend_faild_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/payment-faild"
-                  : ""
-              }`;
-              router.push(url);
-              localStorage.removeItem("coupon_set_date");
-              localStorage.removeItem("coupon");
-            } else if (selectPayment && selectPayment === "mollie") {
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/pay-with-mollie?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/order/"
-                  : ""
-              }&frontend_faild_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/payment-faild"
-                  : ""
-              }`;
-              router.push(url);
-              localStorage.removeItem("coupon_set_date");
-              localStorage.removeItem("coupon");
-            } else if (selectPayment && selectPayment === "myfatoorah") {
-              const url = `${
-                  process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/myfatoorah-webview?token=${
-                  auth().access_token
-              }&shipping_method_id=${parseInt(
-                  selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                  couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${
-                  typeof window !== "undefined" && window.location.origin
-                      ? window.location.origin + "/order/"
-                      : ""
-              }&frontend_faild_url=${
-                  typeof window !== "undefined" && window.location.origin
-                      ? window.location.origin + "/payment-faild"
-                      : ""
-              }`;
-              router.push(url);
-              localStorage.removeItem("coupon_set_date");
-              localStorage.removeItem("coupon");
-            }else if (selectPayment && selectPayment === "instamojo") {
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/pay-with-instamojo?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/order/"
-                  : ""
-              }&frontend_faild_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/payment-faild"
-                  : ""
-              }`;
-              router.push(url);
-              localStorage.removeItem("coupon_set_date");
-              localStorage.removeItem("coupon");
-            } else if (selectPayment && selectPayment === "paystack") {
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/paystack-web-view?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/order/"
-                  : ""
-              }&frontend_faild_url=${
-                typeof window !== "undefined" && window.location.origin
-                  ? window.location.origin + "/payment-faild"
-                  : ""
-              }`;
-              router.push(url);
-              localStorage.removeItem("coupon_set_date");
-              localStorage.removeItem("coupon");
-            } else if (selectPayment && selectPayment === "bankpayment") {
+            } else if (selectPayment && (selectPayment === "bankpayment" || selectPayment === 'bkashpayment' || selectPayment === 'rocketpayment' || selectPayment === 'nagadpayment')) {
               await apiRequest
                 .bankPayment(
                   {
@@ -748,6 +566,7 @@ function CheakoutPage() {
                     shipping_method_id: parseInt(selectedRule),
                     tnx_info: transactionInfo,
                     coupon: couponCode && couponCode.code,
+                    type: selectPayment,
                   },
                   auth().access_token
                 )
@@ -765,23 +584,18 @@ function CheakoutPage() {
                   toast.success(err.response && err.response.message);
                 });
             } else if (selectPayment && selectPayment === "sslcommerce") {
-              const url = `${
-                process.env.NEXT_PUBLIC_BASE_URL
-              }user/checkout/sslcommerz-web-view?token=${
-                auth().access_token
-              }&shipping_method_id=${parseInt(
-                selectedRule
-              )}&shipping_address_id=${selectedShipping}&coupon=${
-                couponCode && couponCode.code
-              }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${
-                typeof window !== "undefined" && window.location.origin
+              const url = `${process.env.NEXT_PUBLIC_BASE_URL
+                }user/checkout/sslcommerz-web-view?token=${auth().access_token
+                }&shipping_method_id=${parseInt(
+                  selectedRule
+                )}&shipping_address_id=${selectedShipping}&coupon=${couponCode && couponCode.code
+                }&billing_address_id=${selectedBilling}&request_from=react_web&frontend_success_url=${typeof window !== "undefined" && window.location.origin
                   ? window.location.origin + "/order/"
                   : ""
-              }&frontend_faild_url=${
-                typeof window !== "undefined" && window.location.origin
+                }&frontend_faild_url=${typeof window !== "undefined" && window.location.origin
                   ? window.location.origin + "/payment-faild"
                   : ""
-              }`;
+                }`;
 
               router.push(url);
               localStorage.removeItem("coupon_set_date");
@@ -826,22 +640,20 @@ function CheakoutPage() {
                           <button
                             onClick={() => setActiveAddress("billing")}
                             type="button"
-                            className={`px-4 py-3 text-md font-medium rounded-md  ${
-                              activeAddress === "billing"
-                                ? "text-qblack bg-qyellow"
-                                : "text-qyellow"
-                            } `}
+                            className={`px-4 py-3 text-md font-medium rounded-md  ${activeAddress === "billing"
+                              ? "text-qblack bg-qyellow"
+                              : "text-qyellow"
+                              } `}
                           >
                             {ServeLangItem()?.Billing_Address}
                           </button>
                           <button
                             onClick={() => setActiveAddress("shipping")}
                             type="button"
-                            className={`px-4 py-3 text-md font-medium rounded-md ml-1 ${
-                              activeAddress === "shipping"
-                                ? "text-qblack bg-qyellow"
-                                : "text-qyellow"
-                            } `}
+                            className={`px-4 py-3 text-md font-medium rounded-md ml-1 ${activeAddress === "shipping"
+                              ? "text-qblack bg-qyellow"
+                              : "text-qyellow"
+                              } `}
                           >
                             {ServeLangItem()?.Shipping_Address}
                           </button>
@@ -868,11 +680,10 @@ function CheakoutPage() {
                               <div
                                 onClick={() => setBilling(address.id)}
                                 key={i}
-                                className={`w-full p-5 border cursor-pointer relative ${
-                                  address.id === selectedBilling
-                                    ? "border-qyellow bg-qyellowlow/10"
-                                    : "border-transparent bg-primarygray"
-                                }`}
+                                className={`w-full p-5 border cursor-pointer relative ${address.id === selectedBilling
+                                  ? "border-qyellow bg-qyellowlow/10"
+                                  : "border-transparent bg-primarygray"
+                                  }`}
                               >
                                 <div className="flex justify-between items-center">
                                   <p className="title text-[22px] font-semibold">
@@ -971,11 +782,10 @@ function CheakoutPage() {
                                   )
                                 }
                                 key={i}
-                                className={`w-full p-5 border relative cursor-pointer ${
-                                  address.id === selectedShipping
-                                    ? "border-qyellow bg-qyellowlow/10"
-                                    : "border-transparent bg-primarygray"
-                                }`}
+                                className={`w-full p-5 border relative cursor-pointer ${address.id === selectedShipping
+                                  ? "border-qyellow bg-qyellowlow/10"
+                                  : "border-transparent bg-primarygray"
+                                  }`}
                               >
                                 <div className="flex justify-between items-center">
                                   <p className="title text-[22px] font-semibold">
@@ -1169,11 +979,10 @@ function CheakoutPage() {
                                 {ServeLangItem()?.State}*
                               </h1>
                               <div
-                                className={`w-full h-[50px] border px-5 flex justify-between items-center mb-2 ${
-                                  !!(errors && Object.hasOwn(errors, "state"))
-                                    ? "border-qred"
-                                    : "border-[#EDEDED]"
-                                }`}
+                                className={`w-full h-[50px] border px-5 flex justify-between items-center mb-2 ${!!(errors && Object.hasOwn(errors, "state"))
+                                  ? "border-qred"
+                                  : "border-[#EDEDED]"
+                                  }`}
                               >
                                 <Selectbox
                                   action={getcity}
@@ -1221,11 +1030,10 @@ function CheakoutPage() {
                                 {ServeLangItem()?.City}*
                               </h1>
                               <div
-                                className={`w-full h-[50px] border px-5 flex justify-between items-center mb-2 ${
-                                  !!(errors && Object.hasOwn(errors, "city"))
-                                    ? "border-qred"
-                                    : "border-[#EDEDED]"
-                                }`}
+                                className={`w-full h-[50px] border px-5 flex justify-between items-center mb-2 ${!!(errors && Object.hasOwn(errors, "city"))
+                                  ? "border-qred"
+                                  : "border-[#EDEDED]"
+                                  }`}
                               >
                                 <Selectbox
                                   action={selectCity}
@@ -1417,7 +1225,7 @@ function CheakoutPage() {
                                       item.variants.map((variant, i) => (
                                         <span key={i}>
                                           {variant.variant_item &&
-                                            variant.variant_item.name+','}
+                                            variant.variant_item.name + ','}
                                         </span>
                                       ))}
                                   </p>
@@ -1448,7 +1256,7 @@ function CheakoutPage() {
                           suppressHydrationWarning
                           className="text-[15px] font-bold text-qblack uppercase"
                         >
-                          <CurrencyConvert price={totalPrice}/>
+                          <CurrencyConvert price={totalPrice} />
                         </p>
                       </div>
                       <div className=" flex justify-between mb-5">
@@ -1459,7 +1267,7 @@ function CheakoutPage() {
                           suppressHydrationWarning
                           className="text-[15px] font-bold text-qblack uppercase"
                         >
-                             <CurrencyConvert price={discountCoupon}/>
+                          <CurrencyConvert price={discountCoupon} />
                         </p>
                       </div>
                     </div>
@@ -1476,175 +1284,175 @@ function CheakoutPage() {
                                 <>
                                   {parseInt(rule.condition_from) <=
                                     parseInt(totalPrice) && (
-                                    <div className="flex justify-between items-center">
-                                      <div className="flex space-x-2.5 items-center">
-                                        <div className="input-radio">
-                                          <input
-                                            onChange={(e) =>
-                                              selectedRuleHandler(
-                                                e,
-                                                rule.shipping_fee
-                                              )
-                                            }
-                                            value={rule.id}
-                                            type="radio"
-                                            name="price"
-                                            className="accent-pink-500"
-                                          />
+                                      <div className="flex justify-between items-center">
+                                        <div className="flex space-x-2.5 items-center">
+                                          <div className="input-radio">
+                                            <input
+                                              onChange={(e) =>
+                                                selectedRuleHandler(
+                                                  e,
+                                                  rule.shipping_fee
+                                                )
+                                              }
+                                              value={rule.id}
+                                              type="radio"
+                                              name="price"
+                                              className="accent-pink-500"
+                                            />
+                                          </div>
+                                          <span className="text-[15px] text-normal text-qgraytwo">
+                                            {rule.shipping_rule}
+                                          </span>
                                         </div>
-                                        <span className="text-[15px] text-normal text-qgraytwo">
-                                          {rule.shipping_rule}
+                                        <span
+                                          suppressHydrationWarning
+                                          className="text-[15px] text-normal text-qgraytwo"
+                                        >
+                                          <CurrencyConvert price={rule.shipping_fee} />
+
                                         </span>
                                       </div>
-                                      <span
-                                        suppressHydrationWarning
-                                        className="text-[15px] text-normal text-qgraytwo"
-                                      >
-                                        <CurrencyConvert price={rule.shipping_fee} />
-
-                                      </span>
-                                    </div>
-                                  )}
+                                    )}
                                 </>
-                              ):rule.type === "base_on_weight" ? (
+                              ) : rule.type === "base_on_weight" ? (
                                 <>
                                   {parseInt(rule.condition_from) <=
                                     parseInt(totalWeight) && (
-                                    <>
-                                      {parseInt(rule.condition_to) >=
-                                      parseInt(totalWeight) ? (
-                                        <div className="flex justify-between items-center">
-                                          <div className="flex space-x-2.5 items-center">
-                                            <div className="input-radio">
-                                              <input
-                                                onChange={(e) =>
-                                                  selectedRuleHandler(
-                                                    e,
-                                                    rule.shipping_fee
-                                                  )
-                                                }
-                                                value={rule.id}
-                                                type="radio"
-                                                name="price"
-                                                className="accent-pink-500"
-                                              />
+                                      <>
+                                        {parseInt(rule.condition_to) >=
+                                          parseInt(totalWeight) ? (
+                                          <div className="flex justify-between items-center">
+                                            <div className="flex space-x-2.5 items-center">
+                                              <div className="input-radio">
+                                                <input
+                                                  onChange={(e) =>
+                                                    selectedRuleHandler(
+                                                      e,
+                                                      rule.shipping_fee
+                                                    )
+                                                  }
+                                                  value={rule.id}
+                                                  type="radio"
+                                                  name="price"
+                                                  className="accent-pink-500"
+                                                />
+                                              </div>
+                                              <span className="text-[15px] text-normal text-qgraytwo">
+                                                {rule.shipping_rule}
+                                              </span>
                                             </div>
-                                            <span className="text-[15px] text-normal text-qgraytwo">
-                                              {rule.shipping_rule}
+                                            <span
+                                              suppressHydrationWarning
+                                              className="text-[15px] text-normal text-qgraytwo"
+                                            >
+
+                                              <CurrencyConvert price={rule.shipping_fee} />
                                             </span>
                                           </div>
-                                          <span
-                                            suppressHydrationWarning
-                                            className="text-[15px] text-normal text-qgraytwo"
-                                          >
-                                    
-                                              <CurrencyConvert price={rule.shipping_fee}/>
-                                          </span>
-                                        </div>
-                                      ) : parseInt(rule.condition_to) === -1 ? (
-                                        <div className="flex justify-between items-center">
-                                          <div className="flex space-x-2.5 items-center">
-                                            <div className="input-radio">
-                                              <input
-                                                onChange={(e) =>
-                                                  selectedRuleHandler(
-                                                    e,
-                                                    rule.shipping_fee
-                                                  )
-                                                }
-                                                value={rule.id}
-                                                type="radio"
-                                                name="price"
-                                                className="accent-pink-500"
-                                              />
+                                        ) : parseInt(rule.condition_to) === -1 ? (
+                                          <div className="flex justify-between items-center">
+                                            <div className="flex space-x-2.5 items-center">
+                                              <div className="input-radio">
+                                                <input
+                                                  onChange={(e) =>
+                                                    selectedRuleHandler(
+                                                      e,
+                                                      rule.shipping_fee
+                                                    )
+                                                  }
+                                                  value={rule.id}
+                                                  type="radio"
+                                                  name="price"
+                                                  className="accent-pink-500"
+                                                />
+                                              </div>
+                                              <span className="text-[15px] text-normal text-qgraytwo">
+                                                {rule.shipping_rule}
+                                              </span>
                                             </div>
-                                            <span className="text-[15px] text-normal text-qgraytwo">
-                                              {rule.shipping_rule}
+                                            <span
+                                              suppressHydrationWarning
+                                              className="text-[15px] text-normal text-qgraytwo"
+                                            >
+                                              <CurrencyConvert price={rule.shipping_fee} />
                                             </span>
                                           </div>
-                                          <span
-                                            suppressHydrationWarning
-                                            className="text-[15px] text-normal text-qgraytwo"
-                                          >
-                                              <CurrencyConvert price={rule.shipping_fee}/>
-                                          </span>
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </>
-                                  )}
+                                        ) : (
+                                          ""
+                                        )}
+                                      </>
+                                    )}
                                 </>
-                              ):rule.type === "base_on_qty" ? (
+                              ) : rule.type === "base_on_qty" ? (
                                 <>
                                   {parseInt(rule.condition_from) <=
                                     totalQty && (
-                                    <>
-                                      {parseInt(rule.condition_to) >=
-                                      totalQty ? (
-                                        <div className="flex justify-between items-center">
-                                          <div className="flex space-x-2.5 items-center">
-                                            <div className="input-radio">
-                                              <input
-                                                onChange={(e) =>
-                                                  selectedRuleHandler(
-                                                    e,
-                                                    rule.shipping_fee
-                                                  )
-                                                }
-                                                value={rule.id}
-                                                type="radio"
-                                                name="price"
-                                                className="accent-pink-500"
-                                              />
+                                      <>
+                                        {parseInt(rule.condition_to) >=
+                                          totalQty ? (
+                                          <div className="flex justify-between items-center">
+                                            <div className="flex space-x-2.5 items-center">
+                                              <div className="input-radio">
+                                                <input
+                                                  onChange={(e) =>
+                                                    selectedRuleHandler(
+                                                      e,
+                                                      rule.shipping_fee
+                                                    )
+                                                  }
+                                                  value={rule.id}
+                                                  type="radio"
+                                                  name="price"
+                                                  className="accent-pink-500"
+                                                />
+                                              </div>
+                                              <span className="text-[15px] text-normal text-qgraytwo">
+                                                {rule.shipping_rule}
+                                              </span>
                                             </div>
-                                            <span className="text-[15px] text-normal text-qgraytwo">
-                                              {rule.shipping_rule}
+                                            <span
+                                              suppressHydrationWarning
+                                              className="text-[15px] text-normal text-qgraytwo"
+                                            >
+                                              <CurrencyConvert price={rule.shipping_fee} />
                                             </span>
                                           </div>
-                                          <span
-                                            suppressHydrationWarning
-                                            className="text-[15px] text-normal text-qgraytwo"
-                                          >
-                                              <CurrencyConvert price={rule.shipping_fee}/>
-                                          </span>
-                                        </div>
-                                      ) : parseInt(rule.condition_to) == -1 ? (
-                                        <div className="flex justify-between items-center">
-                                          <div className="flex space-x-2.5 items-center">
-                                            <div className="input-radio">
-                                              <input
-                                                onChange={(e) =>
-                                                  selectedRuleHandler(
-                                                    e,
-                                                    rule.shipping_fee
-                                                  )
-                                                }
-                                                value={rule.id}
-                                                type="radio"
-                                                name="price"
-                                                className="accent-pink-500"
-                                              />
+                                        ) : parseInt(rule.condition_to) == -1 ? (
+                                          <div className="flex justify-between items-center">
+                                            <div className="flex space-x-2.5 items-center">
+                                              <div className="input-radio">
+                                                <input
+                                                  onChange={(e) =>
+                                                    selectedRuleHandler(
+                                                      e,
+                                                      rule.shipping_fee
+                                                    )
+                                                  }
+                                                  value={rule.id}
+                                                  type="radio"
+                                                  name="price"
+                                                  className="accent-pink-500"
+                                                />
+                                              </div>
+                                              <span className="text-[15px] text-normal text-qgraytwo">
+                                                {rule.shipping_rule}
+                                              </span>
                                             </div>
-                                            <span className="text-[15px] text-normal text-qgraytwo">
-                                              {rule.shipping_rule}
+                                            <span
+                                              suppressHydrationWarning
+                                              className="text-[15px] text-normal text-qgraytwo"
+                                            >
+                                              <CurrencyConvert price={rule.shipping_fee} />
                                             </span>
                                           </div>
-                                          <span
-                                            suppressHydrationWarning
-                                            className="text-[15px] text-normal text-qgraytwo"
-                                          >
-                                              <CurrencyConvert price={rule.shipping_fee}/>
-                                          </span>
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </>
-                                  )}
+                                        ) : (
+                                          ""
+                                        )}
+                                      </>
+                                    )}
                                 </>
-                              ):(
-                                  <div></div>
+                              ) : (
+                                <div></div>
                               )}
                             </div>
                           ))}
@@ -1659,7 +1467,7 @@ function CheakoutPage() {
                           suppressHydrationWarning
                           className="text-2xl font-medium text-qred"
                         >
-                            <CurrencyConvert price={(mainTotalPrice - discountCoupon)}/>
+                          <CurrencyConvert price={(mainTotalPrice - discountCoupon)} />
                         </p>
                       </div>
                     </div>
@@ -1671,11 +1479,10 @@ function CheakoutPage() {
                             <div
                               onClick={() => setPaymentMethod("cashOnDelivery")}
                               className={`payment-item relative bg-[#F8F8F8] text-center w-full h-[50px] text-sm text-qgreen flex justify-center items-center px-3 uppercase cursor-pointer
-                              ${
-                                selectPayment === "cashOnDelivery"
+                              ${selectPayment === "cashOnDelivery"
                                   ? "border-2 border-qyellow"
                                   : "border border-gray-200"
-                              }
+                                }
                               `}
                             >
                               <div className="w-full">
@@ -1707,11 +1514,10 @@ function CheakoutPage() {
                           {bankPaymentStatus && (
                             <div
                               onClick={() => setPaymentMethod("bankpayment")}
-                              className={`payment-item text-center bg-[#F8F8F8] relative w-full h-[50px] font-bold text-sm text-white text-qyellow  flex justify-center items-center px-3 uppercase cursor-pointer ${
-                                selectPayment === "bankpayment"
-                                  ? "border-2 border-qyellow"
-                                  : "border border-gray-200"
-                              }`}
+                              className={`payment-item text-center bg-[#F8F8F8] relative w-full h-[50px] font-bold text-sm text-white text-qyellow  flex justify-center items-center px-3 uppercase cursor-pointer ${selectPayment === "bankpayment"
+                                ? "border-2 border-qyellow"
+                                : "border border-gray-200"
+                                }`}
                             >
                               <div className="w-full">
                                 <span className="text-qblack font-bold text-base">
@@ -1719,6 +1525,108 @@ function CheakoutPage() {
                                 </span>
                               </div>
                               {selectPayment === "bankpayment" && (
+                                <span
+                                  data-aos="zoom-in"
+                                  className="absolute text-white z-10 w-6 h-6 rounded-full bg-qyellow -right-2.5 -top-2.5"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {bkashStatus && (
+                            <div
+                              onClick={() => setPaymentMethod("bkashpayment")}
+                              className={`payment-item text-center bg-[#F8F8F8] relative w-full h-[50px] font-bold text-sm text-white text-qyellow  flex justify-center items-center px-3 uppercase cursor-pointer ${selectPayment === "bkashpayment"
+                                ? "border-2 border-qyellow"
+                                : "border border-gray-200"
+                                }`}
+                            >
+                              <div className="w-full">
+                                <span className="text-qblack font-bold text-base">
+                                  Bkash Payment
+                                </span>
+                              </div>
+                              {selectPayment === "bkashpayment" && (
+                                <span
+                                  data-aos="zoom-in"
+                                  className="absolute text-white z-10 w-6 h-6 rounded-full bg-qyellow -right-2.5 -top-2.5"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {rocketStatus && (
+                            <div
+                              onClick={() => setPaymentMethod("rocketpayment")}
+                              className={`payment-item text-center bg-[#F8F8F8] relative w-full h-[50px] font-bold text-sm text-white text-qyellow  flex justify-center items-center px-3 uppercase cursor-pointer ${selectPayment === "rocketpayment"
+                                ? "border-2 border-qyellow"
+                                : "border border-gray-200"
+                                }`}
+                            >
+                              <div className="w-full">
+                                <span className="text-qblack font-bold text-base">
+                                  Rocket Payment
+                                </span>
+                              </div>
+                              {selectPayment === "rocketpayment" && (
+                                <span
+                                  data-aos="zoom-in"
+                                  className="absolute text-white z-10 w-6 h-6 rounded-full bg-qyellow -right-2.5 -top-2.5"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {nagadStatus && (
+                            <div
+                              onClick={() => setPaymentMethod("nagadpayment")}
+                              className={`payment-item text-center bg-[#F8F8F8] relative w-full h-[50px] font-bold text-sm text-white text-qyellow  flex justify-center items-center px-3 uppercase cursor-pointer ${selectPayment === "nagadpayment"
+                                ? "border-2 border-qyellow"
+                                : "border border-gray-200"
+                                }`}
+                            >
+                              <div className="w-full">
+                                <span className="text-qblack font-bold text-base">
+                                  Nagad Payment
+                                </span>
+                              </div>
+                              {selectPayment === "nagadpayment" && (
                                 <span
                                   data-aos="zoom-in"
                                   className="absolute text-white z-10 w-6 h-6 rounded-full bg-qyellow -right-2.5 -top-2.5"
@@ -1762,6 +1670,78 @@ function CheakoutPage() {
                             onChange={(e) => setTransactionInfo(e.target.value)}
                             className={`w-full focus:ring-0 focus:outline-none py-3 px-4 border  placeholder:text-sm text-sm`}
                             placeholder={"Example:\r\n" + bankInfo.account_info}
+                          ></textarea>
+                        </div>
+                      </div>
+                    )}
+                    {selectPayment === "bkashpayment" && (
+                      <div className="w-full bank-inputs mt-5">
+                        <div className="input-item mb-5">
+                          <div className="bank-info-alert w-full p-5 bg-amber-100 rounded mb-4 overflow-x-scroll">
+                            <pre className="w-full table table-fixed">
+                              {bkashInfo?.account_info}
+                            </pre>
+                          </div>
+                          <h6 className="input-label  capitalize text-[13px] font-600 leading-[24px] text-qblack block mb-2 ">
+                            {ServeLangItem()?.Transaction_Information}*
+                          </h6>
+                          <textarea
+                            name=""
+                            id=""
+                            cols="5"
+                            rows="7"
+                            value={transactionInfo}
+                            onChange={(e) => setTransactionInfo(e.target.value)}
+                            className={`w-full focus:ring-0 focus:outline-none py-3 px-4 border  placeholder:text-sm text-sm`}
+                            placeholder={"Example:\r\n" + bkashInfo?.instruction}
+                          ></textarea>
+                        </div>
+                      </div>
+                    )}
+                    {selectPayment === "rocketpayment" && (
+                      <div className="w-full bank-inputs mt-5">
+                        <div className="input-item mb-5">
+                          <div className="bank-info-alert w-full p-5 bg-amber-100 rounded mb-4 overflow-x-scroll">
+                            <pre className="w-full table table-fixed">
+                              {rocketInfo?.account_info}
+                            </pre>
+                          </div>
+                          <h6 className="input-label  capitalize text-[13px] font-600 leading-[24px] text-qblack block mb-2 ">
+                            {ServeLangItem()?.Transaction_Information}*
+                          </h6>
+                          <textarea
+                            name=""
+                            id=""
+                            cols="5"
+                            rows="7"
+                            value={transactionInfo}
+                            onChange={(e) => setTransactionInfo(e.target.value)}
+                            className={`w-full focus:ring-0 focus:outline-none py-3 px-4 border  placeholder:text-sm text-sm`}
+                            placeholder={"Example:\r\n" + rocketInfo?.instruction}
+                          ></textarea>
+                        </div>
+                      </div>
+                    )}
+                    {selectPayment === "nagadpayment" && (
+                      <div className="w-full bank-inputs mt-5">
+                        <div className="input-item mb-5">
+                          <div className="bank-info-alert w-full p-5 bg-amber-100 rounded mb-4 overflow-x-scroll">
+                            <pre className="w-full table table-fixed">
+                              {nagadInfo?.account_info}
+                            </pre>
+                          </div>
+                          <h6 className="input-label  capitalize text-[13px] font-600 leading-[24px] text-qblack block mb-2 ">
+                            {ServeLangItem()?.Transaction_Information}*
+                          </h6>
+                          <textarea
+                            name=""
+                            id=""
+                            cols="5"
+                            rows="7"
+                            value={transactionInfo}
+                            onChange={(e) => setTransactionInfo(e.target.value)}
+                            className={`w-full focus:ring-0 focus:outline-none py-3 px-4 border  placeholder:text-sm text-sm`}
+                            placeholder={"Example:\r\n" + nagadInfo?.instruction}
                           ></textarea>
                         </div>
                       </div>
