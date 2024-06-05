@@ -17,8 +17,6 @@ export default function AddressesTab() {
   const [address, setAddress] = useState("");
   const [home, setHome] = useState(true);
   const [office, setOffice] = useState(false);
-  const [countryDropdown, setCountryDropdown] = useState(null);
-  const [country, setCountry] = useState(null);
   const [stateDropdown, setStateDropdown] = useState(null);
   const [state, setState] = useState(null);
   const [cityDropdown, setCityDropdown] = useState(null);
@@ -28,8 +26,7 @@ export default function AddressesTab() {
   const getAllAddress = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address?token=${
-          auth().access_token
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address?token=${auth().access_token
         }`
       )
       .then((res) => {
@@ -42,30 +39,14 @@ export default function AddressesTab() {
   useEffect(() => {
     if (auth()) {
       getAllAddress();
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address/create?token=${
-            auth().access_token
-          }`
-        )
-        .then((res) => {
-          if (res.data) {
-            setCountryDropdown(res.data.countries);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
+    getState();
   }, []);
-  const getState = async (value) => {
-    if (auth() && value) {
-      setCountry(value.id);
+  const getState = async () => {
+    if (auth()) {
       await axios
         .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/state-by-country/${
-            value.id
-          }?token=${auth().access_token}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/state-by-country/?token=${auth().access_token}`
         )
         .then((res) => {
           setCityDropdown(null);
@@ -83,8 +64,7 @@ export default function AddressesTab() {
       setState(value.id);
       await axios
         .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/city-by-state/${
-            value.id
+          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/city-by-state/${value.id
           }?token=${auth().access_token}`
         )
         .then((res) => {
@@ -112,7 +92,6 @@ export default function AddressesTab() {
           phone: phone,
           address: address,
           type: home ? "home" : office ? "office" : null,
-          country: country,
           state: state,
           city: city,
         })
@@ -122,7 +101,6 @@ export default function AddressesTab() {
           setEmail("");
           setPhone("");
           setAddress("");
-          setCountryDropdown(null);
           setStateDropdown(null);
           setCityDropdown(null);
           setErrors(null);
@@ -136,8 +114,8 @@ export default function AddressesTab() {
           console.log(err);
           setLoading(false);
           err.response && setErrors(err.response.data.errors);
-          if(err.response.status===403){
-            toast.error( err.response.data.message);
+          if (err.response.status === 403) {
+            toast.error(err.response.data.message);
           }
         });
     } else {
@@ -171,11 +149,10 @@ export default function AddressesTab() {
               setEmail(res.data.address.email);
               setPhone(res.data.address.phone);
               setAddress(res.data.address.address);
-              const checkHomeOrNot=parseInt(res.data.address.type) === 1;
+              const checkHomeOrNot = parseInt(res.data.address.type) === 1;
               setHome(checkHomeOrNot);
-              const checkOfficeOrNot=parseInt(res.data.address.type)===0;
+              const checkOfficeOrNot = parseInt(res.data.address.type) === 0;
               setOffice(checkOfficeOrNot);
-              setCountry(parseInt(res.data.address.country_id));
               setState(parseInt(res.data.address.state_id));
               setcity(parseInt(res.data.address.city_id));
               await getState(res.data.address.country);
@@ -199,7 +176,6 @@ export default function AddressesTab() {
           phone: phone,
           address: address,
           type: home ? "home" : office ? "office" : null,
-          country: country,
           state: state,
           city: city,
         })
@@ -214,8 +190,8 @@ export default function AddressesTab() {
           console.log(err);
           setLoading(false);
           err.response && setErrors(err.response.data.errors);
-          if(err.response.status===403){
-            toast.error( err.response.data.message);
+          if (err.response.status === 403) {
+            toast.error(err.response.data.message);
           }
         });
     } else {
@@ -229,7 +205,6 @@ export default function AddressesTab() {
     setAddress("");
     setHome(true);
     setOffice(false);
-    setCountry(null);
     setState(null);
     setcity(null);
     setNewAddress(newAddress ? true : true);
@@ -329,80 +304,17 @@ export default function AddressesTab() {
                   )}
                 </div>
               </div>
-              <div className="mb-6">
-                <h1 className="input-label capitalize block  mb-2 text-qgray text-[13px] font-normal">
-                  {ServeLangItem()?.Country}*
-                </h1>
-                <div
-                  className={`w-full h-[50px] border px-5 flex justify-between items-center border-qgray-border mb-2 ${
-                    !!(errors && Object.hasOwn(errors, "country"))
-                      ? "border-qred"
-                      : "border-qgray-border"
-                  }`}
-                >
-                  <Selectbox
-                    action={getState}
-                    className="w-full"
-                    defaultValue={
-                      countryDropdown &&
-                      countryDropdown.length > 0 &&
-                      (function () {
-                        let item =
-                          countryDropdown.length > 0 &&
-                          countryDropdown.find(
-                            (item) => parseInt(item.id) === parseInt(country)
-                          );
-                        return item ? item.name : "Select";
-                      })()
-                    }
-                    datas={countryDropdown && countryDropdown}
-                  >
-                    {({ item }) => (
-                      <>
-                        <div className="flex justify-between items-center w-full">
-                          <div>
-                            <span className="text-[13px] text-qblack">
-                              {item}
-                            </span>
-                          </div>
-                          <span>
-                            <svg
-                              width="11"
-                              height="7"
-                              viewBox="0 0 11 7"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5.4 6.8L0 1.4L1.4 0L5.4 4L9.4 0L10.8 1.4L5.4 6.8Z"
-                                fill="#222222"
-                              />
-                            </svg>
-                          </span>
-                        </div>
-                      </>
-                    )}
-                  </Selectbox>
-                </div>
-                {errors && Object.hasOwn(errors, "country") ? (
-                  <span className="text-sm mt-1 text-qred">
-                    {errors.country[0]}
-                  </span>
-                ) : (
-                  ""
-                )}
-              </div>
+
               <div className="flex rtl:space-x-reverse space-x-5 items-center mb-6">
                 <div className="w-1/2">
                   <h1 className="input-label capitalize block  mb-2 text-qgray text-[13px] font-normal">
                     {ServeLangItem()?.State}*
                   </h1>
                   <div
-                    className={`w-full h-[50px] border px-5 flex justify-between items-center border-qgray-border mb-2 ${
-                      !!(errors && Object.hasOwn(errors, "state"))
-                        ? "border-qred"
-                        : "border-qgray-border"
-                    }`}
+                    className={`w-full h-[50px] border px-5 flex justify-between items-center border-qgray-border mb-2 ${!!(errors && Object.hasOwn(errors, "state"))
+                      ? "border-qred"
+                      : "border-qgray-border"
+                      }`}
                   >
                     <Selectbox
                       action={getcity}
@@ -459,11 +371,10 @@ export default function AddressesTab() {
                     {ServeLangItem()?.City}*
                   </h1>
                   <div
-                    className={`w-full h-[50px] border px-5 flex justify-between items-center border-qgray-border mb-2 ${
-                      !!(errors && Object.hasOwn(errors, "city"))
-                        ? "border-qred"
-                        : "border-qgray-border"
-                    }`}
+                    className={`w-full h-[50px] border px-5 flex justify-between items-center border-qgray-border mb-2 ${!!(errors && Object.hasOwn(errors, "city"))
+                      ? "border-qred"
+                      : "border-qgray-border"
+                      }`}
                   >
                     <Selectbox
                       action={selectCity}
@@ -705,14 +616,6 @@ export default function AddressesTab() {
                         </td>
                         <td className="text-base text-qblack line-clamp-1 font-medium">
                           {item.phone}
-                        </td>
-                      </tr>
-                      <tr className="flex mb-3">
-                        <td className="text-base text-qgraytwo w-[70px] block line-clamp-1 capitalize">
-                          <p>{ServeLangItem()?.Country}:</p>
-                        </td>
-                        <td className="text-base text-qblack line-clamp-1 font-medium">
-                          {item.country.name}
                         </td>
                       </tr>
                       <tr className="flex mb-3">
