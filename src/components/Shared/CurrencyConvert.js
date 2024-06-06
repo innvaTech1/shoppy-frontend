@@ -8,13 +8,14 @@ function CurrencyConvert({ price }) {
         const getDefaultCurrency = JSON.parse(
           localStorage.getItem("shopoDefaultCurrency")
         );
-        // const priceConverted = priceTypeConst * parseFloat(getDefaultCurrency.currency_rate).toFixed(2);
-        // if(getDefaultCurrency.currency_position==='left'){
-        //     return `${priceConverted.toFixed(2)}${getDefaultCurrency.currency_icon}`;
-        // }else{
-        // return `${getDefaultCurrency.currency_icon}${priceConverted.toFixed(2)}`;
-        // }
+        const priceConverted = priceTypeConst * 1;
+        if (getDefaultCurrency.currency_position === 'left') {
+          return `${priceConverted.toFixed(2)}TK`;
+        } else {
+          return `TK${priceConverted.toFixed(2)}`;
+        }
       }
+      console.log(priceTypeConst);
       return priceTypeConst;
     } else {
       return priceTypeConst;
