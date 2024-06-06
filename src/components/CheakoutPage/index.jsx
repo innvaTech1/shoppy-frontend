@@ -272,7 +272,7 @@ function CheakoutPage() {
     setLoading(true);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address/store?token=${auth().access_token
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/store/address/?token=${auth().access_token
         }`,
         {
           name: fName && lName ? fName + " " + lName : null,
