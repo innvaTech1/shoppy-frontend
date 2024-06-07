@@ -15,8 +15,8 @@ export default function Footer({ settings }) {
     if (!firstCol) {
       setFirstCol(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.footer_first_col
+        websiteSetup.payload &&
+        websiteSetup.payload.footer_first_col
       );
     }
   });
@@ -24,8 +24,8 @@ export default function Footer({ settings }) {
     if (!secondCol) {
       setSecondCol(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.footer_second_col
+        websiteSetup.payload &&
+        websiteSetup.payload.footer_second_col
       );
     }
   });
@@ -33,8 +33,8 @@ export default function Footer({ settings }) {
     if (!thirdCol) {
       setThirdCol(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.footer_third_col
+        websiteSetup.payload &&
+        websiteSetup.payload.footer_third_col
       );
     }
   });
@@ -47,18 +47,17 @@ export default function Footer({ settings }) {
             {/* logo area */}
             <div className="mb-14">
               <Link href="/" passHref>
-                
-                  {settings && (
-                    <Image
-                      width="152"
-                      height="36"
-                      src={`${
-                        process.env.NEXT_PUBLIC_BASE_URL + settings.logo
+
+                {settings && (
+                  <Image
+                    width="152"
+                    height="36"
+                    src={`${process.env.NEXT_PUBLIC_BASE_URL + settings.logo
                       }`}
-                      alt="logo"
-                    />
-                  )}
-                
+                    alt="logo"
+                  />
+                )}
+
               </Link>
             </div>
             <div>
@@ -172,7 +171,7 @@ export default function Footer({ settings }) {
             <span className="sm:text-base text-[10px] text-qgray font-300">
               ©2022
               <Link
-                href="https://quomodosoft.com/"
+                href="https://innvatech.com/"
                 target="_blank"
                 rel="noreferrer"
                 className="font-500 text-qblack mx-1"
@@ -184,12 +183,12 @@ export default function Footer({ settings }) {
           </div>
           <div className="">
             <Link href="#" passHref>
-                <Image
-                  width="318"
-                  height="28"
-                  src={`/assets/images/payment-getways.png`}
-                  alt="payment-getways"
-                />
+              <Image
+                width="318"
+                height="28"
+                src={`/assets/images/payment-getways.png`}
+                alt="payment-getways"
+              />
             </Link>
           </div>
         </div>

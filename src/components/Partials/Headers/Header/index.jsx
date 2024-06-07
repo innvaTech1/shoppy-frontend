@@ -7,7 +7,7 @@ import Middlebar from "./Middlebar";
 import Navbar from "./Navbar";
 import TopBar from "./TopBar";
 
-export default function Header({ topBarProps,drawerAction, settings, contact }) {
+export default function Header({ topBarProps, drawerAction, settings, contact }) {
   const { cart } = useSelector((state) => state.cart);
   const [cartItems, setCartItem] = useState(null);
   useEffect(() => {
@@ -16,12 +16,12 @@ export default function Header({ topBarProps,drawerAction, settings, contact }) 
 
   return (
     <header className="header-section-wrapper relative print:hidden">
-      <TopBar topBarProps={topBarProps} contact={contact && contact} className="quomodo-shop-top-bar" />
+      <TopBar topBarProps={topBarProps} contact={contact && contact} className="innvatech-shop-top-bar" />
       <Middlebar
         settings={settings && settings}
-        className="quomodo-shop-middle-bar lg:block hidden"
+        className="innvatech-shop-middle-bar lg:block hidden"
       />
-      <div className="quomodo-shop-drawer lg:hidden block w-full h-[60px] bg-white">
+      <div className="innvatech-shop-drawer lg:hidden block w-full h-[60px] bg-white">
         <div className="w-full h-full flex justify-between items-center px-5">
           <div onClick={drawerAction}>
             <svg
@@ -41,14 +41,14 @@ export default function Header({ topBarProps,drawerAction, settings, contact }) 
           </div>
           <div className="w-[200px] h-full relative">
             <Link href="/" passHref>
-                {settings && (
-                  <Image
-                    layout="fill"
-                    objectFit="scale-down"
-                    src={`${process.env.NEXT_PUBLIC_BASE_URL + settings.logo}`}
-                    alt="logo"
-                  />
-                )}
+              {settings && (
+                <Image
+                  layout="fill"
+                  objectFit="scale-down"
+                  src={`${process.env.NEXT_PUBLIC_BASE_URL + settings.logo}`}
+                  alt="logo"
+                />
+              )}
             </Link>
           </div>
           <div className="cart relative cursor-pointer">
@@ -63,7 +63,7 @@ export default function Header({ topBarProps,drawerAction, settings, contact }) 
           </div>
         </div>
       </div>
-      <Navbar className="quomodo-shop-nav-bar lg:block hidden" />
+      <Navbar className="innvatech-shop-nav-bar lg:block hidden" />
     </header>
   );
 }
