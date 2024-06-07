@@ -2,9 +2,9 @@ function CurrencyConvert({ price }) {
   if (price) {
     const priceTypeConst = parseFloat(price).toFixed(2);
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("shopoDefaultCurrency")) {
+      if (localStorage.getItem("cartDefaultCurrency")) {
         const getDefaultCurrency = JSON.parse(
-          localStorage.getItem("shopoDefaultCurrency")
+          localStorage.getItem("cartDefaultCurrency")
         );
         const priceConverted = priceTypeConst * 1;
         if (getDefaultCurrency.currency_position === 'left') {
