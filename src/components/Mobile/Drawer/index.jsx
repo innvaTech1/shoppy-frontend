@@ -1,12 +1,11 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import Compair from "../../Helpers/icons/Compair";
-import ThinLove from "../../Helpers/icons/ThinLove";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import FontAwesomeCom from "../../Helpers/icons/FontAwesomeCom";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import ServeLangItem from "../../Helpers/ServeLangItem";
-import Multivendor from "../../Shared/Multivendor";
+import Compair from "../../Helpers/icons/Compair";
+import FontAwesomeCom from "../../Helpers/icons/FontAwesomeCom";
+import ThinLove from "../../Helpers/icons/ThinLove";
 
 export default function Drawer({ className, open, action }) {
   const router = useRouter();
@@ -14,8 +13,6 @@ export default function Drawer({ className, open, action }) {
   const { websiteSetup } = useSelector((state) => state.websiteSetup);
   const categoryList = websiteSetup && websiteSetup.payload.productCategories;
   const customPages = websiteSetup && websiteSetup.payload.customPages;
-  // const mageMenuList = websiteSetup && websiteSetup.payload.megaMenuCategories;
-  // const megaMenuBanner = websiteSetup && websiteSetup.payload.megaMenuBanner;
   const [searchKey, setSearchkey] = useState("");
   const searchHandler = () => {
     if (searchKey !== "") {
@@ -27,6 +24,7 @@ export default function Drawer({ className, open, action }) {
       return false;
     }
   };
+
   return (
     <>
       <div
@@ -198,16 +196,6 @@ export default function Drawer({ className, open, action }) {
                     </li>
                   ))}
               </ul>
-              {Multivendor() === 1 && (
-                <div className="block my-5 px-2">
-                  <Link href="/become-seller" passHref rel="noopener noreferrer">
-                    <div className="text-sm leading-6 text-qblack w-full h-10 flex justify-center items-center bg-qyellow font-medium font-500 cursor-pointer">
-                      <span>{ServeLangItem()?.Become_seller}</span>
-                    </div>
-
-                  </Link>
-                </div>
-              )}
             </div>
           ) : (
             <div className="menu-item mt-5 w-full">
@@ -364,45 +352,7 @@ export default function Drawer({ className, open, action }) {
                         </div>
                       </Link>
                     </li>
-                    <li className="category-item">
-                      <Link href="/seller-terms-condition">
-                        <div className=" flex justify-between items-center px-5 h-12 bg-white hover:bg-qgreen transition-all duration-300 ease-in-out cursor-pointer">
-                          <div className="flex items-center space-x-6">
-                            <span className="text-sm font-400 capitalize capitalize ">
-                              {ServeLangItem()?.Seller_terms_and_conditions}
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              <svg
-                                width="6"
-                                height="9"
-                                viewBox="0 0 6 9"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <rect
-                                  x="1.49805"
-                                  y="0.818359"
-                                  width="5.78538"
-                                  height="1.28564"
-                                  transform="rotate(45 1.49805 0.818359)"
-                                  fill="#1D1D1D"
-                                />
-                                <rect
-                                  x="5.58984"
-                                  y="4.90918"
-                                  width="5.78538"
-                                  height="1.28564"
-                                  transform="rotate(135 5.58984 4.90918)"
-                                  fill="#1D1D1D"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
+
                     {customPages &&
                       customPages.length > 0 &&
                       customPages.map((item, i) => (
