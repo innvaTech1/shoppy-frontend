@@ -1,21 +1,16 @@
 function DataIteration(props) {
   const { datas = [], startLength, endLength, children } = props;
+  const safeDatas = Array.isArray(datas) ? datas : [];
+
   return (
     <>
-      {datas &&
-        //   4 >= 4
-        datas.length >= endLength ?
-        datas
-          .slice(startLength, endLength)
-          .map((value) => children({ datas: value }))
-          :datas.length < endLength ?
-              datas
-                  .slice(startLength, datas.length)
-                  .map((value) => children({ datas: value })):
-              datas
-                  .slice(startLength, datas.length)
-                  .map((value) => children({ datas: value }))
-      }
+      {safeDatas.length >= endLength
+        ? safeDatas.slice(startLength, endLength).map((value, index) => (
+          <React.Fragment key={index}>{children({ datas: value })}</React.Fragment>
+        ))
+        : safeDatas.slice(startLength, safeDatas.length).map((value, index) => (
+          <React.Fragment key={index}>{children({ datas: value })}</React.Fragment>
+        ))}
     </>
   );
 }
