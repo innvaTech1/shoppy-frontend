@@ -15,15 +15,7 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
   const [phone, setPhone] = useState(null);
   const [countryDropdown, setCountryDropdown] = useState(null);
   const [country, setCountry] = useState(null);
-  useEffect(()=>{
-    if(profileInfo){
-      if(profileInfo.personInfo.country_id&& profileInfo.personInfo.country_id!==''){
-        setCountry(parseInt(profileInfo.personInfo.country_id));
-      }else{
-        setCountry(null);
-      }
-    }
-  },[profileInfo])
+
   const [stateDropdown, setStateDropdown] = useState(null);
   const [state, setState] = useState(null);
   useEffect(()=>{
@@ -62,14 +54,12 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
       setGetCountries(countries&&countries.countries);
     }
   }, [getCountries]);
-  const getState = (value) => {
-    if (auth() && value) {
-      setCountry(value.id);
+  const getState = () => {
+    if (auth()) {
+
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/state-by-country/${
-            value.id
-          }?token=${auth().access_token}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/state-by-country/?token=${auth().access_token}`
         )
         .then((res) => {
           setCityDropdown(null);
@@ -107,26 +97,8 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
     }
   };
   useEffect(() => {
-    if (auth()) {
-      if(profileInfo&& profileInfo.countries&&profileInfo.countries.length>0){
-        setCountryDropdown(profileInfo.countries)
-      }else{
-        axios
-            .get(
-                `${process.env.NEXT_PUBLIC_BASE_URL}api/user/address/create?token=${
-                    auth().access_token
-                }`
-            )
-            .then((res) => {
-              if (res.data) {
-                setCountryDropdown(res.data.countries);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-      }
-    }
+    getState()
+    
   }, [profileInfo]);
   const [profileImg, setprofileImg] = useState(null);
   const [getImg] = useState(
@@ -154,7 +126,6 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
       formData.append("name", name);
       formData.append("email", email);
       formData.append("phone", phone);
-      formData.append("country", country);
       formData.append("address", address);
       formData.append("image", formImg);
       formData.append("state", state);
@@ -292,71 +263,6 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
                 </div>
               </div>
 
-              <div className="mb-6">
-                <h1 className="input-label capitalize block  mb-2 text-qgray text-[13px] font-normal">
-                  {ServeLangItem()?.Country}*
-                </h1>
-                <div
-                  className={`w-full h-[50px] border border-qgray-border px-5 flex justify-between items-center mb-2 ${
-                    !!(errors && Object.hasOwn(errors, "country"))
-                      ? "border-qred"
-                      : "border-qgray-border"
-                  }`}
-                >
-                  <Selectbox
-                    action={getState}
-                    className="w-full"
-                    defaultValue={
-                      countryDropdown &&
-                      countryDropdown.length > 0 &&
-                      (function () {
-                        let item =
-                          countryDropdown.length > 0 &&
-                          countryDropdown.find(
-                            (item) =>
-                              parseInt(item.id) ===
-                              parseInt(profileInfo.personInfo.country_id)
-                          );
-                        return item ? item.name : "Select";
-                      })()
-                    }
-                    datas={countryDropdown && countryDropdown}
-                  >
-                    {({ item }) => (
-                      <>
-                        <div className="flex justify-between items-center w-full">
-                          <div>
-                            <span className="text-[13px] text-qblack">
-                              {item}
-                            </span>
-                          </div>
-                          <span>
-                            <svg
-                              width="11"
-                              height="7"
-                              viewBox="0 0 11 7"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5.4 6.8L0 1.4L1.4 0L5.4 4L9.4 0L10.8 1.4L5.4 6.8Z"
-                                fill="#222222"
-                              />
-                            </svg>
-                          </span>
-                        </div>
-                      </>
-                    )}
-                  </Selectbox>
-                </div>
-                {errors && Object.hasOwn(errors, "country") ? (
-                  <span className="text-sm mt-1 text-qred">
-                    {errors.country[0]}
-                  </span>
-                ) : (
-                  ""
-                )}
-              </div>
               <div className="md:flex md:space-x-5 rtl:space-x-reverse items-center mb-6">
                 <div className="md:w-1/2 mb-8 md:mb-0">
                   <h1 className="input-label capitalize block  mb-2 text-qgray text-[13px] font-normal">
