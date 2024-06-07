@@ -52,12 +52,9 @@ function CheakoutPage() {
   const [selectedRule, setSelectedRule] = useState(null);
   const [shippingCharge, setShippingCharge] = useState(null);
   //TODO: stripe datas
-  const [strpeNumber, setStrpeNumber] = useState("");
   const [expireDate, setExpireDate] = useState(null);
   const [cvv, setCvv] = useState("");
   const [cardHolderName, setHolderName] = useState("");
-  const [stripeError, setStrpError] = useState(null);
-  const [strpLoad, setStrpLoading] = useState(false);
   // const [paypalData, setPaypalData] = useState(null);
   const [inputCoupon, setInputCoupon] = useState("");
   const [couponCode, setCouponCode] = useState(null);
@@ -68,6 +65,7 @@ function CheakoutPage() {
   const [nagadInfo, setNagadInfo] = useState(null);
 
   const [discountCoupon, setDiscountCoupon] = useState(0);
+  let totalPrice = 0;
   useEffect(() => {
     if (couponCode) {
       if (couponCode.offer_type === "2") {
@@ -299,45 +297,7 @@ function CheakoutPage() {
           autoClose: 1000,
         });
       })
-    // if (auth()) {
-    //   apiRequest
-    //     .saveAddress(auth().access_token, {
-    //       name: fName && lName ? fName + " " + lName : null,
-    //       email: email,
-    //       phone: phone,
-    //       address: address,
-    //       type: home ? home : office ? office : null,
-    //       state: state,
-    //       city: city,
-    //     })
-    //     .then((res) => {
-    //       setLoading(false);
-    //       setFname("");
-    //       setlname("");
-    //       setEmail("");
-    //       setPhone("");
-    //       setAddress("");
-    //       setCityDropdown(null);
-    //       setErrors(null);
-    //       getAllAddress();
-    //       setNewAddress(false);
-    //       toast.success(res.data && res.data.notification, {
-    //         autoClose: 1000,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       setLoading(false);
-    //       err.response && setErrors(err.response.data.errors);
-    //       if(err.response.status===403){
-    //         toast.error( err.response.data.message);
-    //       }
-    //     });
-    // } else {
-    //   return false;
-    // }
-  };
-  // parseInt(item.qty)
+  }
   useEffect(() => {
     setCarts(cart && cart.cartProducts);
     //total weight
@@ -382,7 +342,7 @@ function CheakoutPage() {
       }
     }
   };
-  const totalPrice = subTotal && subTotal.reduce((prev, curr) => prev + curr);
+  totalPrice = subTotal && subTotal.reduce((prev, curr) => prev + curr);
   useEffect(() => {
     if (carts && carts.length > 0) {
       setSubTotal(
