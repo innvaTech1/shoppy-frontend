@@ -50,12 +50,12 @@ export default function ProductsTable({
             )
           : false;
       // console.log(prices);
-      const sumVarient = prices ? prices.reduce((p, c) => p + c) : false;
+      const sumVarient = prices ? prices.reduce((p, c) => parseInt(p) + parseInt(c)) : false;
       if (sumVarient) {
-        const priceWithQty = sumVarient * parseFloat(item.qty);
-        return parseFloat(item.totalPrice) + priceWithQty;
+        const priceWithQty = parseInt(sumVarient) * parseFloat(item.qty);
+        return parseFloat(item.totalPrice) + parseInt(priceWithQty);
       } else {
-        return item.totalPrice * 1;
+        return parseInt(item.totalPrice) * 1;
       }
     }
   };
