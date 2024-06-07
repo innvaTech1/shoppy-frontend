@@ -145,8 +145,8 @@ function Sallers({ sellersData }) {
                               pathname: "/seller-products",
                               query: { seller: seller.slug },
                             }}
+                            rel="noopener noreferrer"
                           >
-                            <a rel="noopener noreferrer">
                               <div className="w-[116px] h-[40px] cursor-pointer">
                                 <div className="yellow-btn flex justify-center">
                                   <div className="flex space-x-2 rtl:space-x-reverse items-center">
@@ -181,7 +181,6 @@ function Sallers({ sellersData }) {
                                   </div>
                                 </div>
                               </div>
-                            </a>
                           </Link>
                         </div>
                       </div>

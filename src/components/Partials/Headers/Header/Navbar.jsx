@@ -29,7 +29,7 @@ export default function Navbar({ className }) {
       <div className="container-x mx-auto h-full">
         <div className="w-full h-full relative">
           <div className="w-full h-full flex justify-between items-center">
-            <div className="category-and-nav flex xl:rtl:space-x-reverse space-x-7 rtl:space-x-reverse space-x-3 items-center">
+            <div className="category-and-nav flex xl:rtl:space-x-reverse rtl:space-x-reverse space-x-3 items-center">
               <div className="nav">
                 <ul className="nav-wrapper flex xl:space-x-10 rtl:space-x-reverse space-x-5">
                   <li>
@@ -71,13 +71,14 @@ export default function Navbar({ className }) {
                                               },
                                             }}
                                             passHref
+                                            rel="noopener noreferrer"
                                           >
-                                            <a rel="noopener noreferrer">
+                                            
                                               <span className="text-qgray text-sm font-400 border-b border-transparent hover:border-qyellow hover:text-qyellow cursor-pointer">
                                                 {subItem.sub_category &&
                                                   subItem.sub_category.name}
                                               </span>
-                                            </a>
+                                            
                                           </Link>
                                         </li>
                                       ))}
@@ -122,7 +123,7 @@ export default function Navbar({ className }) {
                                     }}
                                     passHref
                                   >
-                                    <a rel="noopener noreferrer">
+                                    
                                       <div className="cursor-pointer w-full relative  ">
                                         <div className="inline-flex  rtl:space-x-reverse space-x-1.5 items-center relative z-20">
                                           <span className="text-sm text-qblack font-medium leading-[30px]">
@@ -156,7 +157,6 @@ export default function Navbar({ className }) {
                                         </div>
                                         <div className="w-[82px] transition-all duration-300 ease-in-out group-hover:h-4 h-[0px] bg-qyellow absolute left-0 bottom-0 z-10"></div>
                                       </div>
-                                    </a>
                                   </Link>
                                 </div>
                               </div>

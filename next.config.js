@@ -12,6 +12,7 @@ const nextConfig={
 const pwa = process.env.NEXT_PWA_STATUS;
 const nextConfigWithPwa = withPWA({
   dest: "public",
+  maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
   register: true,
   skipWaiting: true,
   runtimeCaching,

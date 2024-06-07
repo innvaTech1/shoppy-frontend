@@ -20,30 +20,30 @@ export default function TopBar({ className, contact }) {
               <ul className="flex space-x-6">
                 <li className={`rtl:ml-6 ltr:ml-0`}>
                   {auth ? (
-                    <Link href="/profile#dashboard" passHref>
-                      <a rel="noopener noreferrer">
+                    <Link href="/profile#dashboard" passHref rel="noopener noreferrer">
+                      
                         <span className="text-xs leading-6 text-qblack font-500 cursor-pointer">
                           {ServeLangItem()?.Account}
                         </span>
-                      </a>
+                      
                     </Link>
                   ) : (
-                    <Link href="/login" passHref>
-                      <a rel="noopener noreferrer">
+                    <Link href="/login" passHref rel="noopener noreferrer">
+                      
                         <span className="text-xs leading-6 text-qblack font-500 cursor-pointer">
                           {ServeLangItem()?.Account}
                         </span>
-                      </a>
+                      
                     </Link>
                   )}
                 </li>
                 <li>
-                  <Link href="/tracking-order" passHref>
-                    <a rel="noopener noreferrer">
+                  <Link href="/tracking-order" passHref rel="noopener noreferrer">
+                    
                       <span className="text-xs leading-6 text-qblack font-500 cursor-pointer">
                         {ServeLangItem()?.Track_Order}
                       </span>
-                    </a>
+                    
                   </Link>
                 </li>
               </ul>

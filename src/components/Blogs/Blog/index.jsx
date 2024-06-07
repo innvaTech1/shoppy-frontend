@@ -316,12 +316,12 @@ export default function Blog({ details }) {
                             <Link
                               href={`/blogs/blog?slug=${post.blog.slug}`}
                               passHref
+
+                              rel="noopener noreferrer"
                             >
-                              <a rel="noopener noreferrer">
                                 <p className="text-[18px] text-qblack leading-7 cursor-pointer mb-3">
                                   {post.blog.title}
                                 </p>
-                              </a>
                             </Link>
                             <div className="flex space-x-3 rtl:space-x-reverse items-center">
                               <span className="text-qyellow">
@@ -407,11 +407,11 @@ export default function Blog({ details }) {
                             href={`/category-by-blogs?category=${category.slug}`}
                             passhref
                           >
-                            <a>
+                            
                               <span className="text-base text-qgraytwo group-hover:text-qyellow cursor-pointer">
                                 {category.name}
                               </span>
-                            </a>
+                            
                           </Link>
                         </li>
                       ))}

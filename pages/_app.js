@@ -27,8 +27,7 @@ import "../styles/selectbox.css";
 
 import Router from "next/router";
 import NProgress from "nprogress"; //nprogress module
-import "nprogress/nprogress.css";
-import MaintenanceWrapper from "../src/components/Partials/Headers/MaintenanceWrapper";
+import "nprogress/nprogress.css"; //styles of nprogress
 import MessageContext from "../src/components/Contexts/MessageContext";
 import LoginContext from "../src/components/Contexts/LoginContext";
 import auth from "../utils/auth";

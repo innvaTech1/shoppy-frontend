@@ -68,12 +68,10 @@ export default function BlogCard({ className, datas }) {
           </div>
         </div>
         <div className="details">
-          <Link href={`/blogs/blog?slug=${datas.slug}`} passHref>
-            <a rel="noopener noreferrer">
+          <Link href={`/blogs/blog?slug=${datas.slug}`} passHref rel="noopener noreferrer">
               <h1 className="text-[22px] text-qblack hover:text-blue-500 font-semibold line-clamp-2 mb-1 capitalizen cursor-pointer">
                 {datas.title}
               </h1>
-            </a>
           </Link>
           {/*<p className="text-qgraytwo text-[15px] leading-[30px] line-clamp-2 mb-3">*/}
           {/*  {datas.article}*/}
@@ -84,7 +82,6 @@ export default function BlogCard({ className, datas }) {
           ></div>
           {/* text-qyellow btn */}
           <Link href={`/blogs/blog?slug=${datas.slug}`} passHref>
-            <a>
               <div className="flex items-center space-x-2 rtl:space-x-reverse mt-2">
                 <span className="text-qblack text-base font-semibold">
                   {ServeLangItem()?.View_More}
@@ -109,7 +106,6 @@ export default function BlogCard({ className, datas }) {
                   </svg>
                 </span>
               </div>
-            </a>
           </Link>
         </div>
       </div>

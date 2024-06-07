@@ -26,8 +26,8 @@ export default function Footer({ settings }) {
     if (!socialLink) {
       setSocialLink(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.social_links
+        websiteSetup.payload &&
+        websiteSetup.payload.social_links
       );
     }
   });
@@ -36,8 +36,8 @@ export default function Footer({ settings }) {
     if (!firstCol) {
       setFirstCol(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.footer_first_col
+        websiteSetup.payload &&
+        websiteSetup.payload.footer_first_col
       );
     }
   });
@@ -45,8 +45,8 @@ export default function Footer({ settings }) {
     if (!secondCol) {
       setSecondCol(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.footer_second_col
+        websiteSetup.payload &&
+        websiteSetup.payload.footer_second_col
       );
     }
   });
@@ -54,8 +54,8 @@ export default function Footer({ settings }) {
     if (!thirdCol) {
       setThirdCol(
         websiteSetup &&
-          websiteSetup.payload &&
-          websiteSetup.payload.footer_third_col
+        websiteSetup.payload &&
+        websiteSetup.payload.footer_third_col
       );
     }
   });
@@ -67,19 +67,18 @@ export default function Footer({ settings }) {
           <div className="lg:w-[424px]  ml-0 w-full mb-10 lg:mb-0">
             <div className="mb-4">
               <Link href="/" passHref>
-                <a>
-                  {settings && (
-                    <Image
-                      width="153"
-                      height="44"
-                      objectFit="scale-down"
-                      src={`${
-                        process.env.NEXT_PUBLIC_BASE_URL + settings.logo
+
+                {settings && (
+                  <Image
+                    width="153"
+                    height="44"
+                    objectFit="scale-down"
+                    src={`${process.env.NEXT_PUBLIC_BASE_URL + settings.logo
                       }`}
-                      alt="logo"
-                    />
-                  )}
-                </a>
+                    alt="logo"
+                  />
+                )}
+
               </Link>
             </div>
             <p className="text-[#9A9A9A] text-[15px] w-[247px] leading-[28px]">
@@ -127,12 +126,10 @@ export default function Footer({ settings }) {
                       {firstCol.col_links.length > 0 &&
                         firstCol.col_links.map((item, i) => (
                           <li key={i}>
-                            <Link href={item.link} passHref>
-                              <a rel="noopener noreferrer">
-                                <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                                  {item.title}
-                                </span>
-                              </a>
+                            <Link href={item.link} passHref rel="noopener noreferrer">
+                              <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                                {item.title}
+                              </span>
                             </Link>
                           </li>
                         ))}
@@ -155,12 +152,12 @@ export default function Footer({ settings }) {
                         {secondCol.col_links.length > 0 &&
                           secondCol.col_links.map((item, i) => (
                             <li key={i}>
-                              <Link href={item.link} passHref>
-                                <a rel="noopener noreferrer">
-                                  <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                                    {item.title}
-                                  </span>
-                                </a>
+                              <Link href={item.link} passHref rel="noopener noreferrer">
+
+                                <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                                  {item.title}
+                                </span>
+
                               </Link>
                             </li>
                           ))}
@@ -184,12 +181,12 @@ export default function Footer({ settings }) {
                         {thirdCol.col_links.length > 0 &&
                           thirdCol.col_links.map((item, i) => (
                             <li key={i}>
-                              <Link href={item.link} passHref>
-                                <a rel="noopener noreferrer">
-                                  <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                                    {item.title}
-                                  </span>
-                                </a>
+                              <Link href={item.link} passHref rel="noopener noreferrer">
+
+                                <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                                  {item.title}
+                                </span>
+
                               </Link>
                             </li>
                           ))}
@@ -209,14 +206,15 @@ export default function Footer({ settings }) {
             <div className="flex rtl:space-x-reverse space-x-5 items-center">
               {socialLink &&
                 socialLink.length > 0 &&
-                socialLink.map((item, i) => (
-                  <a key={i} href={item.link} target="_blank" rel="noreferrer">
+                socialLink.map((item, i) => {
+                  // console.log(item);
+                  return <a key={i} href={item.link} target="_blank" rel="noreferrer">
                     <FontAwesomeCom
                       className="w-4 h-4 text-qgray"
                       icon={item.icon}
                     />
                   </a>
-                ))}
+                })}
             </div>
             <span className="sm:text-base text-[10px] text-qgray font-300">
               {footerContent && footerContent.copyright
@@ -227,17 +225,15 @@ export default function Footer({ settings }) {
           {footerContent && footerContent.payment_image ? (
             <div className="mt-2 lg:mt-0">
               <Link href="#" passHref>
-                <a>
-                  <Image
-                    width="318"
-                    height="28"
-                    src={`${
-                      process.env.NEXT_PUBLIC_BASE_URL +
-                      footerContent.payment_image
+
+                <Image
+                  width="318"
+                  height="28"
+                  src={`${process.env.NEXT_PUBLIC_BASE_URL +
+                    footerContent.payment_image
                     }`}
-                    alt="payment-getways"
-                  />
-                </a>
+                  alt="payment-getways"
+                />
               </Link>
             </div>
           ) : (

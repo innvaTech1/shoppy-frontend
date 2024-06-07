@@ -167,12 +167,12 @@ export default function ProductCardRowStyleTwo({ className, datas }) {
                 query: { slug: datas.slug },
               }}
               passHref
+              rel="noopener noreferrer"
             >
-              <a rel="noopener noreferrer">
+              
                 <p className="title mb-2 sm:text-[15px] text-[13px] font-600 text-qblack leading-[24px] line-clamp-1 hover:text-blue-600 cursor-pointer">
                   {datas.title}
                 </p>
-              </a>
             </Link>
 
             <p className="price">

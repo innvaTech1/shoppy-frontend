@@ -6,7 +6,7 @@ import InputCom from "../../Helpers/InputCom";
 import LoaderStyleOne from "../../Helpers/Loaders/LoaderStyleOne";
 import Layout from "../../Partials/Layout";
 import { useSelector } from "react-redux";
-import Image from "next/dist/client/image";
+import Image from "next/image";
 import ServeLangItem from "../../Helpers/ServeLangItem";
 
 export default function ForgotPass() {

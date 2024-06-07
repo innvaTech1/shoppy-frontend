@@ -6,7 +6,7 @@ function FontAwesomeCom({icon,size, className}) {
     const prefix = text[0];
     const iconName= text[1]?.replace('fa-','');
     return (
-        <FontAwesomeIcon className={className && className} icon={[`${prefix}`,`${iconName}`] }/>
+        prefix && <FontAwesomeIcon className={className && className} icon={[`${prefix}`,`${iconName}`] }/>
     );
 }
 

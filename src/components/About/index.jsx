@@ -106,14 +106,12 @@ export default function About({ aboutData }) {
                   ></div>
                 </div>
 
-                <Link href="/contact" passHref>
-                  <a rel="noopener noreferrer">
+                <Link href="/contact" passHref rel="noopener noreferrer">
                     <div className="w-[121px] h-10 mt-5 cursor-pointer">
                       <span className="yellow-btn">
                         {ServeLangItem()?.Contact_Us}
                       </span>
                     </div>
-                  </a>
                 </Link>
               </div>
             </div>

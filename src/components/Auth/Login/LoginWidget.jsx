@@ -193,11 +193,11 @@ function LoginWidget({ redirect = true, loginActionPopup, notVerifyHandler }) {
             </span>
             </div>
             <Link href="/forgot-password" passhref>
-              <a>
+              
               <span className="text-base text-qyellow cursor-pointer">
                 {ServeLangItem()?.Forgot_password}?
               </span>
-              </a>
+              
             </Link>
           </div>
           <div className="signin-area mb-3.5">

@@ -1,6 +1,5 @@
 import axios from "axios";
-import * as firebase from 'firebase/app';
-import 'firebase/messaging';
+import { getMessaging, getToken } from "firebase/messaging";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { useContext, useEffect, useState } from "react";
@@ -67,18 +66,18 @@ export default function DefaultLayout({ children }) {
     
   },[])
 // not working
-  function getMessage() {
-    const messaging = firebase.messaging()
-//    console.log(messaging)
-    messaging.onMessage((message) => {
-     // console.log(message)
-      const title = message.notification.title;
-      const options = {
-        body: message.notification.body
-      };
-      new Notification(title, options);
-    })
-  }
+//   function getMessage() {
+//     const messaging = getMessaging()
+// //    console.log(messaging)
+//     messaging.onMessage((message) => {
+//      // console.log(message)
+//       const title = message.notification.title;
+//       const options = {
+//         body: message.notification.body
+//       };
+//       new Notification(title, options);
+//     })
+//   }
 
 
 
@@ -99,8 +98,8 @@ export default function DefaultLayout({ children }) {
         // currency
         const {currencies} = res.data;
         const getDefaultCurrency = currencies && currencies.length>0 ? currencies.find((item)=>item.is_default==='Yes' || item.is_default==='yes') :{};
-        if(!localStorage.getItem("shopoDefaultCurrency")){
-          localStorage.setItem("shopoDefaultCurrency", JSON.stringify(getDefaultCurrency));
+        if(!localStorage.getItem("cartDefaultCurrency")){
+          localStorage.setItem("cartDefaultCurrency", JSON.stringify(getDefaultCurrency));
         }
 
         // handle success
@@ -124,7 +123,7 @@ export default function DefaultLayout({ children }) {
           });
           setFbPixel(res.data.facebookPixel);
           localStorage.setItem("language", JSON.stringify(res.data.language));
-          const checkDefaultExists = localStorage.getItem("language") && localStorage.getItem("shopoDefaultCurrency");
+          const checkDefaultExists = localStorage.getItem("language") && localStorage.getItem("cartDefaultCurrency");
           if (checkDefaultExists) {
             setLoad(false);
             if (!messageWid) {

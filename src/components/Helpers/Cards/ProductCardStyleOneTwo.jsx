@@ -246,12 +246,13 @@ export default function ProductCardStyleOneTwo({ datas }) {
           <Link
             href={{ pathname: "/single-product", query: { slug: datas.slug } }}
             passHref
+            rel="noopener noreferrer"
           >
-            <a rel="noopener noreferrer">
+            
               <p className="title mb-2.5 text-[20px] font-600 text-center text-qblack leading-[24px] line-clamp-2 hover:text-blue-600 cursor-pointer">
                 {datas.title}
               </p>
-            </a>
+            
           </Link>
           <div className="flex justify-center ">
             <div className="price">

@@ -74,10 +74,9 @@ export default function Banner({
                                     query: { slug: item.product_slug },
                                   }}
                                   passHref
+                                  rel="noopener noreferrer"
                                 >
-                                  <a rel="noopener noreferrer">
                                     <ShopNowBtn />
-                                  </a>
                                 </Link>
                               </div>
                             </div>

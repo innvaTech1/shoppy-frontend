@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import Compair from "../../Helpers/icons/Compair";
 import ThinLove from "../../Helpers/icons/ThinLove";
 import { useSelector } from "react-redux";
@@ -39,9 +39,8 @@ export default function Drawer({ className, open, action }) {
           ></div>
         )}
         <div
-          className={`w-[280px] transition-all duration-300 ease-in-out h-screen overflow-y-auto overflow-x-hidden overflow-style-none bg-white fixed top-0 z-50 ${
-            open ? "left-0" : "-left-[280px]"
-          }`}
+          className={`w-[280px] transition-all duration-300 ease-in-out h-screen overflow-y-auto overflow-x-hidden overflow-style-none bg-white fixed top-0 z-50 ${open ? "left-0" : "-left-[280px]"
+            }`}
         >
           <div className="w-full px-5 mt-5 mb-4">
             <div className="flex justify-between items-center">
@@ -126,18 +125,16 @@ export default function Drawer({ className, open, action }) {
           <div className="w-full mt-5 px-5 flex items-center space-x-3">
             <span
               onClick={() => setTab("category")}
-              className={`text-base font-semibold  ${
-                tab === "category" ? "text-qblack" : "text-qgray"
-              }`}
+              className={`text-base font-semibold  ${tab === "category" ? "text-qblack" : "text-qgray"
+                }`}
             >
               {ServeLangItem()?.Categories}
             </span>
             <span className="w-[1px] h-[14px] bg-qgray"></span>
             <span
               onClick={() => setTab("menu")}
-              className={`text-base font-semibold ${
-                tab === "menu" ? "text-qblack" : "text-qgray "
-              }`}
+              className={`text-base font-semibold ${tab === "menu" ? "text-qblack" : "text-qgray "
+                }`}
             >
               {ServeLangItem()?.Main_Menu}
             </span>
@@ -202,15 +199,14 @@ export default function Drawer({ className, open, action }) {
                   ))}
               </ul>
               {Multivendor() === 1 && (
-                  <div className="block my-5 px-2">
-                    <Link href="/become-seller" passHref>
-                      <a rel="noopener noreferrer">
-                  <div className="text-sm leading-6 text-qblack w-full h-10 flex justify-center items-center bg-qyellow font-medium font-500 cursor-pointer">
-                    <span>{ServeLangItem()?.Become_seller}</span>
-                  </div>
-                      </a>
-                    </Link>
-                  </div>
+                <div className="block my-5 px-2">
+                  <Link href="/become-seller" passHref rel="noopener noreferrer">
+                    <div className="text-sm leading-6 text-qblack w-full h-10 flex justify-center items-center bg-qyellow font-medium font-500 cursor-pointer">
+                      <span>{ServeLangItem()?.Become_seller}</span>
+                    </div>
+
+                  </Link>
+                </div>
               )}
             </div>
           ) : (
@@ -379,27 +375,27 @@ export default function Drawer({ className, open, action }) {
                           <div>
                             <span>
                               <svg
-                                  width="6"
-                                  height="9"
-                                  viewBox="0 0 6 9"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
+                                width="6"
+                                height="9"
+                                viewBox="0 0 6 9"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
                                 <rect
-                                    x="1.49805"
-                                    y="0.818359"
-                                    width="5.78538"
-                                    height="1.28564"
-                                    transform="rotate(45 1.49805 0.818359)"
-                                    fill="#1D1D1D"
+                                  x="1.49805"
+                                  y="0.818359"
+                                  width="5.78538"
+                                  height="1.28564"
+                                  transform="rotate(45 1.49805 0.818359)"
+                                  fill="#1D1D1D"
                                 />
                                 <rect
-                                    x="5.58984"
-                                    y="4.90918"
-                                    width="5.78538"
-                                    height="1.28564"
-                                    transform="rotate(135 5.58984 4.90918)"
-                                    fill="#1D1D1D"
+                                  x="5.58984"
+                                  y="4.90918"
+                                  width="5.78538"
+                                  height="1.28564"
+                                  transform="rotate(135 5.58984 4.90918)"
+                                  fill="#1D1D1D"
                                 />
                               </svg>
                             </span>
@@ -408,51 +404,51 @@ export default function Drawer({ className, open, action }) {
                       </Link>
                     </li>
                     {customPages &&
-                        customPages.length > 0 &&
-                        customPages.map((item, i) => (
-                            // eslint-disable-next-line react/jsx-key
-                            <React.Fragment key={i}>
-                              <li className="category-item">
-                                <Link href={`/pages?custom=${item.slug}`} passHref>
-                                  <div className=" flex justify-between items-center px-5 h-12 bg-white hover-bg-qyellow transition-all duration-300 ease-in-out cursor-pointer">
-                                    <div className="flex items-center space-x-6">
+                      customPages.length > 0 &&
+                      customPages.map((item, i) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <React.Fragment key={i}>
+                          <li className="category-item">
+                            <Link href={`/pages?custom=${item.slug}`} passHref>
+                              <div className=" flex justify-between items-center px-5 h-12 bg-white hover-bg-qyellow transition-all duration-300 ease-in-out cursor-pointer">
+                                <div className="flex items-center space-x-6">
                                   <span className="text-sm font-400 capitalize capitalize ">
                                     {item.page_name}
                                   </span>
-                                    </div>
-                                    <div>
+                                </div>
+                                <div>
                                   <span>
                                     <svg
-                                        width="6"
-                                        height="9"
-                                        viewBox="0 0 6 9"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                      width="6"
+                                      height="9"
+                                      viewBox="0 0 6 9"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <rect
-                                          x="1.49805"
-                                          y="0.818359"
-                                          width="5.78538"
-                                          height="1.28564"
-                                          transform="rotate(45 1.49805 0.818359)"
-                                          fill="#1D1D1D"
+                                        x="1.49805"
+                                        y="0.818359"
+                                        width="5.78538"
+                                        height="1.28564"
+                                        transform="rotate(45 1.49805 0.818359)"
+                                        fill="#1D1D1D"
                                       />
                                       <rect
-                                          x="5.58984"
-                                          y="4.90918"
-                                          width="5.78538"
-                                          height="1.28564"
-                                          transform="rotate(135 5.58984 4.90918)"
-                                          fill="#1D1D1D"
+                                        x="5.58984"
+                                        y="4.90918"
+                                        width="5.78538"
+                                        height="1.28564"
+                                        transform="rotate(135 5.58984 4.90918)"
+                                        fill="#1D1D1D"
                                       />
                                     </svg>
                                   </span>
-                                    </div>
-                                  </div>
-                                </Link>
-                              </li>
-                            </React.Fragment>
-                        ))}
+                                </div>
+                              </div>
+                            </Link>
+                          </li>
+                        </React.Fragment>
+                      ))}
                   </ul>
                 </li>
 

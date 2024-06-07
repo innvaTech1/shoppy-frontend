@@ -23,7 +23,7 @@ export default function ProductsAds({
             }  `}
           >
             <Link href={links[0]} passHref>
-              <a>
+              
                 <Image
                   layout="fill"
                   objectFit="scale-down"
@@ -31,13 +31,13 @@ export default function ProductsAds({
                   alt=""
                   className="w-full sm:h-full h-auto"
                 />
-              </a>
+              
             </Link>
           </div>
           {ads.length > 1 && ads.length <= 2 && (
             <div data-aos="fade-left" className="relative flex-1 h-full">
               <Link href={links[1]} passHref>
-                <a>
+                
                   <Image
                     layout="fill"
                     objectFit="scale-down"
@@ -45,7 +45,7 @@ export default function ProductsAds({
                     alt=""
                     className="w-full h-full"
                   />
-                </a>
+                
               </Link>
             </div>
           )}
