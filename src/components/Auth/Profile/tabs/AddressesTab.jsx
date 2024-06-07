@@ -5,6 +5,7 @@ import apiRequest from "../../../../../utils/apiRequest";
 import auth from "../../../../../utils/auth";
 import InputCom from "../../../Helpers/InputCom";
 import LoaderStyleOne from "../../../Helpers/Loaders/LoaderStyleOne";
+import PageHead from "../../../Helpers/PageHead";
 import Selectbox from "../../../Helpers/Selectbox";
 import ServeLangItem from "../../../Helpers/ServeLangItem";
 
@@ -211,6 +212,9 @@ export default function AddressesTab() {
   };
   return (
     <>
+      <PageHead
+        title={`Address`}
+      />
       <div className="w-[180px] h-[50px] mt-4 mb-5">
         <button
           onClick={addNewAddressHandler}

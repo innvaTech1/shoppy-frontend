@@ -7,6 +7,7 @@ import apiRequest from "../../../../../utils/apiRequest";
 import auth from "../../../../../utils/auth";
 import settings from "../../../../../utils/settings";
 import { fetchWishlist } from "../../../../store/wishlistData";
+import PageHead from "../../../Helpers/PageHead";
 import ServeLangItem from "../../../Helpers/ServeLangItem";
 import CurrencyConvert from "../../../Shared/CurrencyConvert";
 
@@ -46,12 +47,12 @@ export default function WishlistTab({ className }) {
     if (wishlists) {
       setMainProducts(
         wishlists &&
-          wishlists.data.map((item) => {
-            return {
-              ...item,
-              totalPrice: item.product.price,
-            };
-          })
+        wishlists.data.map((item) => {
+          return {
+            ...item,
+            totalPrice: item.product.price,
+          };
+        })
       );
     } else {
       setMainProducts(null);
@@ -69,6 +70,9 @@ export default function WishlistTab({ className }) {
   const { currency_icon } = settings();
   return (
     <>
+      <PageHead
+        title={`Wishlist`}
+      />
       <div className={`w-full ${className || ""}`}>
         <div className="relative w-full overflow-x-auto border border-[#EDEDED]">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -99,10 +103,9 @@ export default function WishlistTab({ className }) {
                         <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED] relative">
                           <Image
                             layout="fill"
-                            src={`${
-                              process.env.NEXT_PUBLIC_BASE_URL +
+                            src={`${process.env.NEXT_PUBLIC_BASE_URL +
                               item.product.thumb_image
-                            }`}
+                              }`}
                             alt="product"
                             className="w-full h-full object-contain"
                           />
@@ -121,7 +124,7 @@ export default function WishlistTab({ className }) {
                           suppressHydrationWarning
                           className="text-[15px] font-normal"
                         >
-                          <CurrencyConvert price={item.product.price}/>
+                          <CurrencyConvert price={item.product.price} />
                         </span>
                       </div>
                     </td>

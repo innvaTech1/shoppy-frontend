@@ -6,9 +6,10 @@ import InputCom from "../../../Helpers/InputCom";
 import Selectbox from "../../../Helpers/Selectbox";
 // import apiRequest from "../../../../../utils/apiRequest";
 import { toast } from "react-toastify";
-import ServeLangItem from "../../../Helpers/ServeLangItem";
-import countries from "../../../../data/CountryCodes.json"
 import settings from "../../../../../utils/settings";
+import countries from "../../../../data/CountryCodes.json";
+import PageHead from "../../../Helpers/PageHead";
+import ServeLangItem from "../../../Helpers/ServeLangItem";
 export default function ProfileTab({ profileInfo, updatedProfile }) {
   const [name, setName] = useState(profileInfo.personInfo.name);
   const [email, setEmail] = useState(profileInfo.personInfo.email);
@@ -18,40 +19,40 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
 
   const [stateDropdown, setStateDropdown] = useState(null);
   const [state, setState] = useState(null);
-  useEffect(()=>{
-    if(profileInfo){
-      if(profileInfo.personInfo.state_id&& profileInfo.personInfo.state_id!==''){
+  useEffect(() => {
+    if (profileInfo) {
+      if (profileInfo.personInfo.state_id && profileInfo.personInfo.state_id !== '') {
         setState(parseInt(profileInfo.personInfo.state_id));
-      }else{
+      } else {
         setState(null);
       }
     }
-  },[profileInfo])
+  }, [profileInfo])
   const [cityDropdown, setCityDropdown] = useState(null);
   const [city, setcity] = useState(null);
-  useEffect(()=>{
-    if(profileInfo){
-      if(profileInfo.personInfo.city_id&& profileInfo.personInfo.city_id!==''){
+  useEffect(() => {
+    if (profileInfo) {
+      if (profileInfo.personInfo.city_id && profileInfo.personInfo.city_id !== '') {
         setcity(parseInt(profileInfo.personInfo.city_id));
-      }else{
+      } else {
         setcity(null);
       }
     }
-  },[profileInfo])
+  }, [profileInfo])
   const [address, setAddress] = useState(profileInfo.personInfo.address);
   const [errors, setErrors] = useState(null);
   const [formImg, setFormImag] = useState(null);
   const [getCountries, setGetCountries] = useState(null);
   const [countryDropToggle, setCountryDropToggle] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("BD");
-  const selectCountryhandler=(value)=>{
+  const selectCountryhandler = (value) => {
     setSelectedCountry(value.code);
     setPhone(value.dial_code);
     setCountryDropToggle(false);
   };
   useEffect(() => {
-    if(!getCountries){
-      setGetCountries(countries&&countries.countries);
+    if (!getCountries) {
+      setGetCountries(countries && countries.countries);
     }
   }, [getCountries]);
   const getState = () => {
@@ -77,8 +78,7 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
       setState(value.id);
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/city-by-state/${
-            value.id
+          `${process.env.NEXT_PUBLIC_BASE_URL}api/user/city-by-state/${value.id
           }?token=${auth().access_token}`
         )
         .then((res) => {
@@ -98,7 +98,7 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
   };
   useEffect(() => {
     getState()
-    
+
   }, [profileInfo]);
   const [profileImg, setprofileImg] = useState(null);
   const [getImg] = useState(
@@ -132,9 +132,8 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
       formData.append("city", city);
       await axios({
         method: "post",
-        url: `${
-          process.env.NEXT_PUBLIC_BASE_URL
-        }api/user/update-profile?token=${auth().access_token}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL
+          }api/user/update-profile?token=${auth().access_token}`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       })
@@ -149,18 +148,18 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
       return false;
     }
   };
-  const {default_phone_code}=settings();
-  useEffect(()=>{
-    if(default_phone_code){
-      let defaultCountry=getCountries && getCountries.length>0 && getCountries.find((item)=>item.code===default_phone_code);
-      if(defaultCountry){
-       setPhone(()=>{
-         if(profileInfo&& profileInfo.personInfo.phone && profileInfo.personInfo.phone !== "null"){
-           return profileInfo.personInfo.phone
-         }else{
-           return defaultCountry.dial_code
-         }
-       })
+  const { default_phone_code } = settings();
+  useEffect(() => {
+    if (default_phone_code) {
+      let defaultCountry = getCountries && getCountries.length > 0 && getCountries.find((item) => item.code === default_phone_code);
+      if (defaultCountry) {
+        setPhone(() => {
+          if (profileInfo && profileInfo.personInfo.phone && profileInfo.personInfo.phone !== "null") {
+            return profileInfo.personInfo.phone
+          } else {
+            return defaultCountry.dial_code
+          }
+        })
         setSelectedCountry(defaultCountry.code);
       }
     }
@@ -169,6 +168,9 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
     <>
       {profileInfo && (
         <>
+          <PageHead
+            title={`Profile`}
+          />
           <div className="flex lg:flex-row flex-col-reverse space-x-8 rtl:space-x-reverse">
             <div className="lg:w-[570px] w-full ">
               <div className="input-item mb-8">
@@ -236,27 +238,27 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
                   ) : (
                     ""
                   )}
-                  <button onClick={()=>setCountryDropToggle(!countryDropToggle)} type="button" className="w-[70px] h-[50px] bg-qgray-border absolute left-0 top-[29px] flex justify-center items-center">
+                  <button onClick={() => setCountryDropToggle(!countryDropToggle)} type="button" className="w-[70px] h-[50px] bg-qgray-border absolute left-0 top-[29px] flex justify-center items-center">
                     <div className="flex items-center">
-                  <span>
-                    <Image width="30" height="20" src={`/assets/images/countries/${selectedCountry}.svg`} alt="country"/>
-                  </span>
+                      <span>
+                        <Image width="30" height="20" src={`/assets/images/countries/${selectedCountry}.svg`} alt="country" />
+                      </span>
                       <span className="text-qgray">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 14l-4-4h8z"/></svg>
-                  </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z" /><path d="M12 14l-4-4h8z" /></svg>
+                      </span>
                     </div>
                   </button>
-                  <div style={{boxShadow: "rgb(0 0 0 / 14%) 0px 15px 50px 0px",display:countryDropToggle?'block':'none'}} className="country-dropdown-list w-[250px] h-[250px] bg-white absolute left-0 top-[80px] z-20 overflow-y-scroll">
+                  <div style={{ boxShadow: "rgb(0 0 0 / 14%) 0px 15px 50px 0px", display: countryDropToggle ? 'block' : 'none' }} className="country-dropdown-list w-[250px] h-[250px] bg-white absolute left-0 top-[80px] z-20 overflow-y-scroll">
                     <ul>
-                      {getCountries && getCountries.length>0&&getCountries.map((item,i)=>(
-                          <li onClick={()=>selectCountryhandler(item)} key={i} className="flex space-x-1.5 items-center px-3 py-1 cursor-pointer">
-                        <span className="w-[25px]">
-                           <Image width="25" height="15" src={`/assets/images/countries/${item.code}.svg`} alt="country"/>
-                        </span>
-                            <span className="text-sm text-qgray capitalize flex-1">
-                          {item.name}
-                        </span>
-                          </li>
+                      {getCountries && getCountries.length > 0 && getCountries.map((item, i) => (
+                        <li onClick={() => selectCountryhandler(item)} key={i} className="flex space-x-1.5 items-center px-3 py-1 cursor-pointer">
+                          <span className="w-[25px]">
+                            <Image width="25" height="15" src={`/assets/images/countries/${item.code}.svg`} alt="country" />
+                          </span>
+                          <span className="text-sm text-qgray capitalize flex-1">
+                            {item.name}
+                          </span>
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -269,11 +271,10 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
                     {ServeLangItem()?.State}*
                   </h1>
                   <div
-                    className={`w-full h-[50px] border border-qgray-border px-5 flex justify-between items-center mb-2 ${
-                      !!(errors && Object.hasOwn(errors, "state"))
+                    className={`w-full h-[50px] border border-qgray-border px-5 flex justify-between items-center mb-2 ${!!(errors && Object.hasOwn(errors, "state"))
                         ? "border-qred"
                         : "border-qgray-border"
-                    }`}
+                      }`}
                   >
                     <Selectbox
                       action={getcity}
@@ -332,11 +333,10 @@ export default function ProfileTab({ profileInfo, updatedProfile }) {
                     {ServeLangItem()?.City}*
                   </h1>
                   <div
-                    className={`w-full h-[50px] border border-qgray-border px-5 flex justify-between items-center mb-2 ${
-                      !!(errors && Object.hasOwn(errors, "city"))
+                    className={`w-full h-[50px] border border-qgray-border px-5 flex justify-between items-center mb-2 ${!!(errors && Object.hasOwn(errors, "city"))
                         ? "border-qred"
                         : "border-qgray-border"
-                    }`}
+                      }`}
                   >
                     <Selectbox
                       action={selectCity}

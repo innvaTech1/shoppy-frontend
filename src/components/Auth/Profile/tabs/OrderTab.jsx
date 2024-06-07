@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import DateFormat from "../../../../../utils/DateFormat";
 import Link from "next/link";
-import ServeLangItem from "../../../Helpers/ServeLangItem";
+import React from "react";
+import DateFormat from "../../../../../utils/DateFormat";
 import settings from "../../../../../utils/settings";
+import PageHead from "../../../Helpers/PageHead";
+import ServeLangItem from "../../../Helpers/ServeLangItem";
 import CurrencyConvert from "../../../Shared/CurrencyConvert";
 
 export default function OrderTab({ orders }) {
   const { currency_icon } = settings();
   return (
     <>
+      <PageHead
+        title={`Order History`}
+      />
       <div className="relative w-full overflow-x-auto sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <tbody>
@@ -49,7 +53,7 @@ export default function OrderTab({ orders }) {
                   {/*</td>*/}
                   <td className="text-center py-4 px-2">
                     <span className="text-base text-qblack whitespace-nowrap px-2 ">
-                      <CurrencyConvert price={item.total_amount}/>
+                      <CurrencyConvert price={item.total_amount} />
                     </span>
                   </td>
                   <td className="py-4 flex justify-center">

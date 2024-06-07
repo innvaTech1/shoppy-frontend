@@ -1,8 +1,13 @@
 import React from "react";
+import PageHead from "../../../Helpers/PageHead";
 
 export default function SupportTab() {
   return (
     <>
+
+      <PageHead
+        title={`Support History`}
+      />
       <div className="support-tab w-full">
         <div className="w-[180px] h-[50px] mb-4">
           <button type="button" className="yellow-btn">

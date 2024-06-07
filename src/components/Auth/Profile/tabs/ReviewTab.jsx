@@ -3,12 +3,16 @@ import Link from "next/link";
 import React from "react";
 import DateFormat from "../../../../../utils/DateFormat";
 import DataIteration from "../../../Helpers/DataIteration";
-import Star from "../../../Helpers/icons/Star";
+import PageHead from "../../../Helpers/PageHead";
 import ServeLangItem from "../../../Helpers/ServeLangItem";
+import Star from "../../../Helpers/icons/Star";
 
 export default function ReviewTab({ className, reviews }) {
   return (
     <>
+      <PageHead
+        title={`Review History`}
+      />
       <div className="review-tab-wrapper w-full">
         <div className="grid sm:grid-cols-2 grid-cols-1 gap-8">
           <DataIteration
@@ -20,19 +24,17 @@ export default function ReviewTab({ className, reviews }) {
               <div key={datas.id} className="item">
                 <div
                   style={{ boxShadow: "0px 15px 64px rgba(0, 0, 0, 0.05)" }}
-                  className={`product-row-card-style-one w-full h-[170px] bg-white group relative overflow-hidden ${
-                    className || ""
-                  } `}
+                  className={`product-row-card-style-one w-full h-[170px] bg-white group relative overflow-hidden ${className || ""
+                    } `}
                 >
                   <div className="flex space-x-2 rtl:space-x-reverse items-center w-full h-full p-2">
                     <div className="w-1/3 h-full relative">
                       <Image
                         layout="fill"
                         objectFit="scale-down"
-                        src={`${
-                          process.env.NEXT_PUBLIC_BASE_URL +
+                        src={`${process.env.NEXT_PUBLIC_BASE_URL +
                           datas.product.thumb_image
-                        }`}
+                          }`}
                         alt=""
                         className="w-full h-full object-contain"
                       />
