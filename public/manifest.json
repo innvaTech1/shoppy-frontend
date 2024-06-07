@@ -1,7 +1,7 @@
 {
-  "name": "shopo",
-  "short_name": "shopo",
-  "description": "shopo progressive web app",
+  "name": "InnvaTech",
+  "short_name": "cart",
+  "description": "cart progressive web app",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",

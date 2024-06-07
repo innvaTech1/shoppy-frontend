@@ -12,7 +12,7 @@ const Blogpage = ({ data }) => {
   });
   return (
     <>
-      <PageHead title="shopo | blogs/blog" />
+      <PageHead title="InnvaTech | blogs/blog" />
       {router.query.slug && <Blog details={data} />}
     </>
   );
