@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import Lightbox from "yet-another-react-lightbox";
+import Video from "yet-another-react-lightbox/plugins/video";
+import "yet-another-react-lightbox/styles.css";
 import apiRequest from "../../../utils/apiRequest";
 import auth from "../../../utils/auth";
 import BreadcrumbCom from "../BreadcrumbCom";
@@ -8,14 +11,10 @@ import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import InputCom from "../Helpers/InputCom";
 import LoaderStyleOne from "../Helpers/Loaders/LoaderStyleOne";
+import ServeLangItem from "../Helpers/ServeLangItem";
 import Layout from "../Partials/Layout";
 import ProductView from "./ProductView";
 import Reviews from "./Reviews";
-import SallerInfo from "./SallerInfo";
-import ServeLangItem from "../Helpers/ServeLangItem";
-import Lightbox from "yet-another-react-lightbox";
-import Video from "yet-another-react-lightbox/plugins/video";
-import "yet-another-react-lightbox/styles.css";
 
 export default function SingleProductPage({ details }) {
   const [open, setOpen] = useState(false);
@@ -62,15 +61,6 @@ export default function SingleProductPage({ details }) {
     }
   }, [commnets]);
 
-  const sellerInfo = details.seller
-    ? {
-        seller: {
-          ...details.seller,
-          sellerTotalProducts: parseInt(details.sellerTotalProducts),
-          sellerTotalReview: parseInt(details.sellerTotalReview),
-        },
-      }
-    : null;
   const relatedProducts = details.relatedProducts.map((item) => {
     return {
       id: item.id,
@@ -160,11 +150,10 @@ export default function SingleProductPage({ details }) {
                       <li>
                         <span
                           onClick={() => setTab("video")}
-                          className={`py-[15px]  space-x-3.5 sm:text-[15px] text-sm sm:flex border-b font-medium cursor-pointer ${
-                            tab === "video"
-                              ? "border-qyellow text-qblack "
-                              : "border-transparent text-qgray"
-                          }`}
+                          className={`py-[15px]  space-x-3.5 sm:text-[15px] text-sm sm:flex border-b font-medium cursor-pointer ${tab === "video"
+                            ? "border-qyellow text-qblack "
+                            : "border-transparent text-qgray"
+                            }`}
                         >
                           <span>
                             <svg
@@ -189,11 +178,10 @@ export default function SingleProductPage({ details }) {
                     <li>
                       <span
                         onClick={() => setTab("des")}
-                        className={`py-[15px] sm:text-[15px] text-sm sm:block border-b font-medium cursor-pointer ${
-                          tab === "des"
-                            ? "border-qyellow text-qblack "
-                            : "border-transparent text-qgray"
-                        }`}
+                        className={`py-[15px] sm:text-[15px] text-sm sm:block border-b font-medium cursor-pointer ${tab === "des"
+                          ? "border-qyellow text-qblack "
+                          : "border-transparent text-qgray"
+                          }`}
                       >
                         {ServeLangItem()?.Description}
                       </span>
@@ -201,11 +189,10 @@ export default function SingleProductPage({ details }) {
                     <li>
                       <span
                         onClick={() => setTab("review")}
-                        className={`py-[15px] sm:text-[15px] text-sm sm:block border-b font-medium cursor-pointer ${
-                          tab === "review"
-                            ? "border-qyellow text-qblack "
-                            : "border-transparent text-qgray"
-                        }`}
+                        className={`py-[15px] sm:text-[15px] text-sm sm:block border-b font-medium cursor-pointer ${tab === "review"
+                          ? "border-qyellow text-qblack "
+                          : "border-transparent text-qgray"
+                          }`}
                       >
                         {ServeLangItem()?.Reviews}
                       </span>
@@ -381,24 +368,6 @@ export default function SingleProductPage({ details }) {
                       </div>
                     </div>
                   )}
-                  {tab === "info" && (
-                    <div data-aos="fade-up" className="w-full tab-content-item">
-                      {details.seller && (
-                        <SallerInfo
-                          sellerInfo={sellerInfo}
-                          products={
-                            details.this_seller_products.length > 0 &&
-                            details.this_seller_products.slice(
-                              0,
-                              details.this_seller_products.length > 8
-                                ? 8
-                                : details.this_seller_products.length
-                            )
-                          }
-                        />
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -502,15 +471,14 @@ export default function SingleProductPage({ details }) {
                       id=""
                       cols="30"
                       rows="6"
-                      className={`w-full focus:ring-0 focus:outline-none py-3 px-4 border  placeholder:text-sm text-sm ${
-                        reportErrors ? "border-qred" : "border-qgray-border"
-                      }`}
+                      className={`w-full focus:ring-0 focus:outline-none py-3 px-4 border  placeholder:text-sm text-sm ${reportErrors ? "border-qred" : "border-qgray-border"
+                        }`}
                       placeholder={ServeLangItem()?.Type_Here}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
                     {reportErrors &&
-                    Object.hasOwn(reportErrors, "description") ? (
+                      Object.hasOwn(reportErrors, "description") ? (
                       <span className="text-sm mt-1 text-qred">
                         {reportErrors.description[0]}
                       </span>

@@ -290,62 +290,6 @@ export default function Dashboard({ dashBoardData }) {
             </table>
           </div>
         </div>
-        {dashBoardData.is_seller && (
-          <>
-            <div className="w-[1px] h-[164px] bg-[#E4E4E4] lg:block hidden"></div>
-            <div className="lg:ml-6">
-              <p className="title text-[22px] font-semibold">
-                {ServeLangItem()?.Shop_Information}
-              </p>
-              <div className="mt-5">
-                <table>
-                  <tbody>
-                    <tr className="flex mb-5">
-                      <td className="text-base text-qgraytwo w-[100px] block capitalize">
-                        <p>{ServeLangItem()?.Name}:</p>
-                      </td>
-                      <td className="text-base text-qblack font-medium">
-                        {dashBoardData.sellerInfo.shop_name}
-                      </td>
-                    </tr>
-                    <tr className="flex mb-5">
-                      <td className="text-base text-qgraytwo w-[100px] block capitalize">
-                        <p>{ServeLangItem()?.Email}:</p>
-                      </td>
-                      <td className="text-base text-qblack font-medium">
-                        {dashBoardData.sellerInfo.email}
-                      </td>
-                    </tr>
-                    <tr className="flex mb-5">
-                      <td className="text-base text-qgraytwo w-[100px] block capitalize">
-                        <p>{ServeLangItem()?.phone}:</p>
-                      </td>
-                      <td className="text-base text-qblack font-medium">
-                        {dashBoardData.sellerInfo.phone}
-                      </td>
-                    </tr>
-                    <tr className="flex mb-5">
-                      <td className="text-base text-qgraytwo w-[100px] block capitalize">
-                        <p>{ServeLangItem()?.Address}:</p>
-                      </td>
-                      <td className="text-base text-qblack font-medium">
-                        {dashBoardData.sellerInfo.address}
-                      </td>
-                    </tr>
-                    {/*<tr className="flex mb-5">*/}
-                    {/*  <td className="text-base text-qgraytwo w-[100px] block capitalize">*/}
-                    {/*    <div>Zip:</div>*/}
-                    {/*  </td>*/}
-                    {/*  <td className="text-base text-qblack font-medium">*/}
-                    {/*    4040*/}
-                    {/*  </td>*/}
-                    {/*</tr>*/}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </>
-        )}
       </div>
       {/*account delete*/}
       <div className=" px-7 py-7 border border-[rgba(0, 0, 0, 0.1)] ">

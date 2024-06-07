@@ -1,3 +1,5 @@
+import React from "react";
+
 function DataIteration(props) {
   const { datas = [], startLength, endLength, children } = props;
   const safeDatas = Array.isArray(datas) ? datas : [];
