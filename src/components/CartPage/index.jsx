@@ -1,16 +1,16 @@
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import isAuth from "../../../Middleware/isAuth";
+import apiRequest from "../../../utils/apiRequest";
+import auth from "../../../utils/auth";
+import { fetchCart } from "../../store/Cart";
 import BreadcrumbCom from "../BreadcrumbCom";
 import EmptyCardError from "../EmptyCardError";
 import PageTitle from "../Helpers/PageTitle";
-import ProductsTable from "./ProductsTable";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import auth from "../../../utils/auth";
-import apiRequest from "../../../utils/apiRequest";
-import { toast } from "react-toastify";
-import { fetchCart } from "../../store/Cart";
-import Link from "next/link";
-import isAuth from "../../../Middleware/isAuth";
 import ServeLangItem from "../Helpers/ServeLangItem";
+import ProductsTable from "./ProductsTable";
 
 function CardPage() {
   const dispatch = useDispatch();
@@ -70,16 +70,17 @@ function CardPage() {
   // };
   const serverReqIncreseQty = (id) => {
     if (auth()) {
-      if(getCarts &&
-          getCarts.length > 0){
-        const updateCart= getCarts.map((cart) => {
+      if (getCarts &&
+        getCarts.length > 0) {
+        const updateCart = getCarts.map((cart) => {
           if (cart.id === id) {
-            const updatePrice = cart.product.offer_price|| cart.product.price;
-            const updateQty = cart.qty+1
+            const updatePrice = cart.product.offer_price || cart.product.price;
+            const updateQty = parseInt(cart.qty) + 1
+
             return {
               ...cart,
               totalPrice: updatePrice * updateQty,
-              qty:cart.qty+1
+              qty: updateQty
             };
           }
           return cart;
@@ -93,16 +94,17 @@ function CardPage() {
   const serverReqDecreseQyt = (id) => {
     if (auth()) {
       apiRequest.decrementQyt(id, auth().access_token);
-      if(getCarts &&
-          getCarts.length > 0){
-        const updateCart= getCarts.map((cart) => {
+      if (getCarts &&
+        getCarts.length > 0) {
+        const updateCart = getCarts.map((cart) => {
           if (cart.id === id) {
-            const updatePrice = cart.product.offer_price|| cart.product.price;
-            const updateQty = cart.qty-1
+            const updatePrice = cart.product.offer_price || cart.product.price;
+            const updateQty = parseInt(cart.qty) - 1
+
             return {
               ...cart,
               totalPrice: updatePrice * updateQty,
-              qty:cart.qty-1
+              qty: updateQty
             };
           }
           return cart;

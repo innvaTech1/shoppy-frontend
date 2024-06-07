@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import settings from "../../../utils/settings";
 import InputQuantityCom from "../Helpers/InputQuantityCom";
-import CheckProductIsExistsInFlashSale from "../Shared/CheckProductIsExistsInFlashSale";
-import Link from "next/link";
 import ServeLangItem from "../Helpers/ServeLangItem";
+import CheckProductIsExistsInFlashSale from "../Shared/CheckProductIsExistsInFlashSale";
 
 export default function ProductsTable({
   className,
@@ -26,7 +26,7 @@ export default function ProductsTable({
           return parseInt(item.product.offer_price) + sumVarient;
         } else {
 
-          return item.product.offer_price;
+          return parseInt(item.product.offer_price);
         }
       } else {
         if (item.variants && item.variants.length > 0) {
@@ -41,16 +41,16 @@ export default function ProductsTable({
       }
     }
   };
+
   const totalPriceCalc = (item) => {
     if (item) {
       const prices =
         item.variants.length > 0
           ? item.variants.map((item) =>
-              item.variant_item ? parseFloat(item.variant_item.price) : 0
-            )
+            item.variant_item ? parseFloat(item.variant_item.price) : 0
+          )
           : false;
-      // console.log(prices);
-      const sumVarient = prices ? prices.reduce((p, c) => parseInt(p) + parseInt(c)) : false;
+          const sumVarient = prices ? prices.reduce((p, c) => parseInt(p) + parseInt(c)) : false;
       if (sumVarient) {
         const priceWithQty = parseInt(sumVarient) * parseFloat(item.qty);
         return parseFloat(item.totalPrice) + parseInt(priceWithQty);
@@ -77,8 +77,8 @@ export default function ProductsTable({
             </tr>
             {/* table heading end */}
             {cartItems &&
-                cartItems.length > 0 &&
-                cartItems.map((item) => (
+              cartItems.length > 0 &&
+              cartItems.map((item) => (
                 <tr
                   key={item.id}
                   className="bg-white border-b hover:bg-gray-50"
@@ -88,10 +88,9 @@ export default function ProductsTable({
                       <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED] relative">
                         <Image
                           layout="fill"
-                          src={`${
-                            process.env.NEXT_PUBLIC_BASE_URL +
+                          src={`${process.env.NEXT_PUBLIC_BASE_URL +
                             item.product.thumb_image
-                          }`}
+                            }`}
                           alt="product"
                           className="w-full h-full object-contain"
                         />
@@ -99,29 +98,29 @@ export default function ProductsTable({
                       <div className="flex-1 flex flex-col">
                         <div className="mb-2">
                           <Link
-                              href={{
-                                pathname: "/single-product",
-                                query: { slug: item.product.slug },
-                              }}
+                            href={{
+                              pathname: "/single-product",
+                              query: { slug: item.product.slug },
+                            }}
                           >
                             <p className="font-medium text-[15px] text-qblack hover:text-blue-500 cursor-pointer">
                               {item.product.name}
                             </p>
                           </Link>
                         </div>
-                        {item.variants.length>0 && (
-                            <div className=" border-t border-qyellow w-full pt-2">
-                              <p className="font-medium text-sm mb-1">Variants : </p>
-                              <ul>
-                                {item.variants.map((v,i)=>(
-                                    <li key={i} className="flex justify-between items-center">
-                                      <span className="text-qblack text-xs">{v?.variant_item.name}  </span>
-                                      <span className="text-qblack text-xs font-medium">{currency_icon+v?.variant_item.price}  </span>
-                                    </li>
-                                ))}
+                        {item.variants.length > 0 && (
+                          <div className=" border-t border-qyellow w-full pt-2">
+                            <p className="font-medium text-sm mb-1">Variants : </p>
+                            <ul>
+                              {item.variants.map((v, i) => (
+                                <li key={i} className="flex justify-between items-center">
+                                  <span className="text-qblack text-xs">{v?.variant_item.name}  </span>
+                                  <span className="text-qblack text-xs font-medium">{currency_icon + v?.variant_item.price}  </span>
+                                </li>
+                              ))}
 
-                              </ul>
-                            </div>
+                            </ul>
+                          </div>
                         )}
 
                       </div>
@@ -130,10 +129,10 @@ export default function ProductsTable({
                   <td className="text-center py-4 px-2">
                     <div className="flex space-x-1 items-center justify-center">
                       <span className="text-[15px] font-normal">
-                       <CheckProductIsExistsInFlashSale
-                           id={item.product_id}
-                           price={price(item)}
-                       />
+                        <CheckProductIsExistsInFlashSale
+                          id={item.product_id}
+                          price={price(item)}
+                        />
                       </span>
                     </div>
                   </td>

@@ -5,9 +5,10 @@ export default function InputQuantityCom({
   decrementQty,
   qyt,
 }) {
+
   const [quantity, setQuantity] = useState(qyt);
   const increment = () => {
-    setQuantity((prev) => prev + 1);
+    setQuantity((prev) => parseInt(prev) + 1);
     // calcTotalPrice(cartId, quantity + 1);
     incrementQty(cartId);
   };
