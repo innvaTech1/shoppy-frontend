@@ -657,7 +657,8 @@ export default function ProductView({
                 type="button"
                 className="black-btn text-sm font-semibold w-full h-full "
               >
-                {ServeLangItem()?.Buy_Now}
+                {/* {ServeLangItem()?.Buy_Now} */}
+                Buy Now
               </button>
             </div>
 
