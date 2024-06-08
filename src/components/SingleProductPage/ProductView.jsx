@@ -655,7 +655,7 @@ export default function ProductView({
               <button
                 onClick={handleBuyNow}
                 type="button"
-                className="black-btn text-sm font-semibold w-full h-full"
+                className="black-btn text-sm font-semibold w-full h-full "
               >
                 {ServeLangItem()?.Buy_Now}
               </button>
