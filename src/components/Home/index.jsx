@@ -68,14 +68,14 @@ export default function Home({ homepageData }) {
           />
         )} */}
 
-        {homepage && (
+        {/* {homepage && (
           <CampaignCountDown
             className="md:mb-[60px] mb-[30px]"
             flashSaleData={homepage.flashSale}
             downloadData={homepage.flashSaleSidebarBanner}
             lastDate={homepage.flashSale.end_time}
           />
-        )}
+        )} */}
         {homepage && (
           <ViewMoreTitle
             className="top-selling-product md:mb-[60px] mb-[30px]"
