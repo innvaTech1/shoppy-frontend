@@ -649,16 +649,16 @@ export default function ProductView({
                   {ServeLangItem()?.Add_To_Cart}
                 </button>
               </div>
-              {/* Buy now button add */}
-              <div className="py-2">
-                <button
-                  onClick={handleBuyNow}
-                  type="button"
-                  className="black-btn text-sm font-semibold w-full h-full"
-                >
-                  {ServeLangItem()?.Buy_Now}
-                </button>
-              </div>
+            </div>
+            {/* Buy now button add */}
+            <div className="py-2 flex-1 h-full">
+              <button
+                onClick={handleBuyNow}
+                type="button"
+                className="black-btn text-sm font-semibold w-full h-full"
+              >
+                {ServeLangItem()?.Buy_Now}
+              </button>
             </div>
 
             <div data-aos="fade-up" className="mb-[20px]">
