@@ -327,7 +327,7 @@ export default function ProductCardStyleOne({ datas }) {
         </div>
         <div className="product-card-details px-[30px] pb-[30px] relative pt-2">
           {/* add to card button */}
-          <div className="absolute w-full h-10 px-[30px] left-0 top-40 group-hover:top-[85px] transition-all duration-300 ease-in-out">
+          <div className="absolute w-full h-10 px-[30px] left-0 top-40 group-hover:top-[95px] transition-all duration-300 ease-in-out">
             <button
               onClick={() => addToCart(datas.id)}
               type="button"
