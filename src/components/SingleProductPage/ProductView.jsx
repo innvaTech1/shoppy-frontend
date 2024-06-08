@@ -651,7 +651,7 @@ export default function ProductView({
               </div>
             </div>
             {/* Buy now button add */}
-            <div className="py-2 flex-1 h-full">
+            <div>
               <button
                 onClick={handleBuyNow}
                 type="button"
