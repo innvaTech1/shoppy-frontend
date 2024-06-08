@@ -577,7 +577,7 @@ export default function ProductView({
 
             <div
               data-aos="fade-up"
-              className="quantity-card-wrapper w-full flex items-center h-[50px] space-x-[10px] mb-[30px]"
+              className="quantity-card-wrapper w-full flex items-center h-[50px] space-x-[10px] mb-[20px]"
             >
               <div className="w-[120px] h-full px-[26px] flex items-center border border-qgray-border">
                 <div className="flex justify-between items-center w-full">
@@ -651,11 +651,11 @@ export default function ProductView({
               </div>
             </div>
             {/* Buy now button add */}
-            <div>
+            <div className="mb-[30px]">
               <button
                 onClick={handleBuyNow}
                 type="button"
-                className="black-btn text-sm font-semibold w-full h-full "
+                className=" p-10 black-btn text-sm font-semibold w-full h-full "
               >
                 {/* {ServeLangItem()?.Buy_Now} */}
                 Buy Now
