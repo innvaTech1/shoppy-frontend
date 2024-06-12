@@ -134,7 +134,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
     const products = [{
       product_id: data.product_id,
       qty: data.productQuantity,
-      variants: product.product_variant,
+      variants: data.product_variant,
     }];
 
     data.products = products;
@@ -158,10 +158,6 @@ export default function OrderForm({ isOpen, onClose, product }) {
         console.error("Error:", error);
         toast.error("Error placing order");
       })
-
-    // Handle form submission logic, e.g., sending data to an API
-    console.log("Form data submitted:", data);
-
   }
 
 
