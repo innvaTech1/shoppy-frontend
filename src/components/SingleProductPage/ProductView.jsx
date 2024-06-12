@@ -18,6 +18,7 @@ import ServeLangItem from "../Helpers/ServeLangItem";
 import LoginContext from "../Contexts/LoginContext";
 import messageContext from "../Contexts/MessageContext";
 import CurrencyConvert from "../Shared/CurrencyConvert";
+import Modal from "../Modal/Modal";
 
 const Redirect = () => {
   return (
@@ -649,17 +650,10 @@ export default function ProductView({
                   {ServeLangItem()?.Add_To_Cart}
                 </button>
               </div>
-            </div>
-            {/* Buy now button add */}
-            <div className="mb-[30px]">
-              <button
-                onClick={handleBuyNow}
-                type="button"
-                className=" p-[13px] black-btn text-sm font-semibold w-full h-full "
-              >
-                {/* {ServeLangItem()?.Buy_Now} */}
-                Buy Now
-              </button>
+            </div>            
+            {/* Order Now */}
+            <div>
+            <Modal addToCard={addToCard} product={product} />
             </div>
 
             <div data-aos="fade-up" className="mb-[20px]">
