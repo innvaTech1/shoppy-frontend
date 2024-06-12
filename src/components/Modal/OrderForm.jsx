@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CurrencyConvert from "../Shared/CurrencyConvert";
 import { toast } from "react-toastify";
+import CurrencyConvert from "../Shared/CurrencyConvert";
 
 export default function OrderForm({ isOpen, onClose, product }) {
   const [quantity, setQuantity] = useState(1);
@@ -12,7 +12,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
   const [delivery, setDelivery] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState({});
   const [formData, setFormData] = useState({
-    productId: product.id,
+    product_id: product.id,
     productQuantity: quantity,
     productPrice: product.offer_price,
     product_variant: [],
@@ -55,7 +55,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
       .then((data) => setDistricts(data))
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
-  
+
   useEffect(() => {
     if (formData.district) {
       // Fetch thanas based on selected district
@@ -86,7 +86,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
         (item) => item.id === parseInt(e.target.value)
       );
       const shippingFee = shipping?.shipping_fee;
-      setFormData({ ...formData, shippingFee: shippingFee, shipping_method_id: e.target.value});
+      setFormData({ ...formData, shippingFee: shippingFee, shipping_method_id: e.target.value });
       setTotal(parseFloat(subTotal) + parseInt(shippingFee));
     }
   };
@@ -99,41 +99,71 @@ export default function OrderForm({ isOpen, onClose, product }) {
 
     const data = { ...formData, product_variant: product_variant, productQuantity: quantity }
 
-    console.log("Form data submitted:", formData);
     if (!data?.product_variant?.length && product.active_variants.length > 0) {
       toast.error("Please select a variant");
       return;
     }
-    else if(!data.shipping_method_id){
+    else if (!data.shipping_method_id) {
       toast.error("Please select a delivery method");
       return;
     }
-    else if (!data.district){
+    else if (!data.district) {
       toast.error("Please select a district");
       return;
     }
-    else if (!data.thana){
+    else if (!data.thana) {
       toast.error("Please select a thana");
       return;
     }
 
-    else if (!data.address){
+    else if (!data.address) {
       toast.error("Please provide an address");
       return;
     }
 
-    else if (!data.name){
+    else if (!data.name) {
       toast.error("Please provide a name");
       return;
     }
-    else if (!data.phone){
+    else if (!data.phone) {
       toast.error("Please provide a phone number");
       return;
     }
 
+
+    const products = [{
+      product_id: data.product_id,
+      qty: data.productQuantity,
+      variants: product.product_variant,
+    }];
+
+    data.products = products;
+    data.total = total;
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/user/place/order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.order_id) {
+          toast.success(data.message);
+          onClose();
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Error placing order");
+      })
+
     // Handle form submission logic, e.g., sending data to an API
     console.log("Form data submitted:", data);
-  };
+
+  }
+
 
   // Modal scroll
   useEffect(() => {
