@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CurrencyConvert from "../Shared/CurrencyConvert";
+import { toast } from "react-toastify";
 
 export default function OrderForm({ isOpen, onClose, product }) {
   const [quantity, setQuantity] = useState(1);
@@ -21,7 +22,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
     thana: "",
     address: "",
     orderNote: "",
-    shipping_method_id: "",
+    shipping_method_id: '',
     shippingFee: 0,
     discount: "",
     total: "",
@@ -44,9 +45,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
       setSubTotal(val);
       setTotal(val + parseInt(formData.shippingFee));
       setQuantity((prev) => prev - 1);
-
     }
-
   };
 
   useEffect(() => {
@@ -56,7 +55,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
       .then((data) => setDistricts(data))
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
-  // console.log(districts.states)
+  
   useEffect(() => {
     if (formData.district) {
       // Fetch thanas based on selected district
@@ -68,6 +67,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
         .catch((error) => console.error("Error fetching thanas:", error));
     }
   }, [formData.district]);
+
   // Shipping 
   useEffect(() => {
     // Fetch shippings from API
@@ -86,24 +86,51 @@ export default function OrderForm({ isOpen, onClose, product }) {
         (item) => item.id === parseInt(e.target.value)
       );
       const shippingFee = shipping?.shipping_fee;
-      setFormData({ ...formData, shippingFee: shippingFee });
-
+      setFormData({ ...formData, shippingFee: shippingFee, shipping_method_id: e.target.value});
       setTotal(parseFloat(subTotal) + parseInt(shippingFee));
     }
-
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // console.log(selectedVariant);
-
     // get the values
     const product_variant = Object.values(selectedVariant);
 
-
-
     const data = { ...formData, product_variant: product_variant, productQuantity: quantity }
+
+    console.log("Form data submitted:", formData);
+    if (!data?.product_variant?.length && product.active_variants.length > 0) {
+      toast.error("Please select a variant");
+      return;
+    }
+    else if(!data.shipping_method_id){
+      toast.error("Please select a delivery method");
+      return;
+    }
+    else if (!data.district){
+      toast.error("Please select a district");
+      return;
+    }
+    else if (!data.thana){
+      toast.error("Please select a thana");
+      return;
+    }
+
+    else if (!data.address){
+      toast.error("Please provide an address");
+      return;
+    }
+
+    else if (!data.name){
+      toast.error("Please provide a name");
+      return;
+    }
+    else if (!data.phone){
+      toast.error("Please provide a phone number");
+      return;
+    }
+
     // Handle form submission logic, e.g., sending data to an API
     console.log("Form data submitted:", data);
   };
