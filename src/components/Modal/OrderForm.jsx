@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 export default function OrderForm({ isOpen, onClose, product }) {
+  const [quantity, setQuantity] = useState(1);
+  const [districts, setDistricts] = useState([]);
+  const [thanas, setThanas] = useState([]);
+
+  const [delivery, setDelivery] = useState(null);
+
   const [formData, setFormData] = useState({
     productId: product.id,
     productQuantity: quantity,
@@ -16,11 +22,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
     discount: "",
     total: "",
   });
-  const [districts, setDistricts] = useState([]);
-  const [thanas, setThanas] = useState([]);
-  const [quantity, setQuantity] = useState(1);
-  const [delivery, setDelivery] = useState(null);
-console.log(delivery)
+
   const increment = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -49,7 +51,7 @@ console.log(delivery)
         .catch((error) => console.error("Error fetching thanas:", error));
     }
   }, [formData.district]);
-// Shipping 
+  // Shipping 
   useEffect(() => {
     // Fetch districts from API
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/user/checkout`) // Replace with your actual API endpoint
@@ -82,6 +84,9 @@ console.log(delivery)
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+
+  console.log("Form data submitted:", formData);
 
   return (
     <>
@@ -153,9 +158,8 @@ console.log(delivery)
                     <div className=" relative w-[50px] h-[50px] border rounded-md ">
                       <img
                         className=" w-12 h-12 p-1"
-                        src={`${
-                          process.env.NEXT_PUBLIC_BASE_URL + product.thumb_image
-                        }`}
+                        src={`${process.env.NEXT_PUBLIC_BASE_URL + product.thumb_image
+                          }`}
                         alt={product.name}
                       />
                       <div className=" absolute -top-2 -right-2 bg-gray-500 w-5 h-5 rounded-full flex justify-center items-center text-white p-1">
@@ -196,14 +200,21 @@ console.log(delivery)
                           <p>Select {variant?.name}:</p>
                         </div>
                         <select
-                          name="product_variant"
-                          value={formData.product_variant}
+                          name={variant?.name}
+                          value={formData.product_variant[variant?.name]}
                           id=""
                           className=" w-full border p-2"
-                          onChange={handleChange}
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              [e.target.name]: e.target.value,
+                            });
+                          
+                          }}
                         >
                           <option value="">Select</option>
                           {variant.active_variant_items.map((value, index) => {
+                            
                             return (
                               <option value={value.id} key={value.id}>
                                 {value.name}
