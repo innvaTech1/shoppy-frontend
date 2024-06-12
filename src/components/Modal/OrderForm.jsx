@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import CurrencyConvert from "../Shared/CurrencyConvert";
 
 export default function OrderForm({ isOpen, onClose, product }) {
   const [quantity, setQuantity] = useState(1);
   const [districts, setDistricts] = useState([]);
   const [thanas, setThanas] = useState([]);
+  const [subTotal, setSubTotal] = useState(product.offer_price);
+  const [total, setTotal] = useState(product.offer_price);
 
   const [delivery, setDelivery] = useState(null);
-
+  const [selectedVariant, setSelectedVariant] = useState({});
   const [formData, setFormData] = useState({
     productId: product.id,
     productQuantity: quantity,
-    productPrice: product.price,
+    productPrice: product.offer_price,
     product_variant: [],
     name: "",
     phone: "",
@@ -18,18 +21,32 @@ export default function OrderForm({ isOpen, onClose, product }) {
     thana: "",
     address: "",
     orderNote: "",
-    delivery_fee: "",
+    shipping_method_id: "",
+    shippingFee: 0,
     discount: "",
     total: "",
   });
 
   const increment = () => {
+    const val = product.offer_price * (quantity + 1);
+    // set subtotal
+    setSubTotal(val);
+    setTotal(val + parseInt(formData.shippingFee));
+
     setQuantity((prev) => prev + 1);
+
   };
   const decrement = () => {
     if (quantity > 1) {
+
+      const val = product.offer_price * (quantity - 1);
+      // set subtotal
+      setSubTotal(val);
+      setTotal(val + parseInt(formData.shippingFee));
       setQuantity((prev) => prev - 1);
+
     }
+
   };
 
   useEffect(() => {
@@ -53,21 +70,42 @@ export default function OrderForm({ isOpen, onClose, product }) {
   }, [formData.district]);
   // Shipping 
   useEffect(() => {
-    // Fetch districts from API
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/user/checkout`) // Replace with your actual API endpoint
+    // Fetch shippings from API
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/user/shipping-methods`) // Replace with your actual API endpoint
       .then((response) => response.json())
       .then((data) => setDelivery(data && data.shippings))
-      .catch((error) => console.error("Error fetching districts:", error));
+      .catch((error) => console.error("Error fetching shipping:", error));
   }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    // set sub total
+    if (e.target.name === "shipping_method_id") {
+      const shipping = delivery?.find(
+        (item) => item.id === parseInt(e.target.value)
+      );
+      const shippingFee = shipping?.shipping_fee;
+      setFormData({ ...formData, shippingFee: shippingFee });
+
+      setTotal(parseFloat(subTotal) + parseInt(shippingFee));
+    }
+
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // console.log(selectedVariant);
+
+    // get the values
+    const product_variant = Object.values(selectedVariant);
+
+
+
+    const data = { ...formData, product_variant: product_variant, productQuantity: quantity }
     // Handle form submission logic, e.g., sending data to an API
-    console.log("Form data submitted:", formData);
+    console.log("Form data submitted:", data);
   };
 
   // Modal scroll
@@ -85,8 +123,6 @@ export default function OrderForm({ isOpen, onClose, product }) {
 
   if (!isOpen) return null;
 
-
-  console.log("Form data submitted:", formData);
 
   return (
     <>
@@ -187,7 +223,9 @@ export default function OrderForm({ isOpen, onClose, product }) {
                       </button>
                     </div>
                   </div>
-                  <h1 className="text-xl font-bold">TK{product.price}</h1>
+                  <h1 className="text-xl font-bold">
+                    <CurrencyConvert price={product.offer_price} />
+                  </h1>
                 </div>
                 <div className=" flex justify-between items-center gap-4">
                   {product.active_variants.map((variant, index) => {
@@ -201,20 +239,20 @@ export default function OrderForm({ isOpen, onClose, product }) {
                         </div>
                         <select
                           name={variant?.name}
-                          value={formData.product_variant[variant?.name]}
+                          value={selectedVariant[variant?.name]}
                           id=""
                           className=" w-full border p-2"
                           onChange={(e) => {
-                            setFormData({
-                              ...formData,
-                              [e.target.name]: e.target.value,
+                            setSelectedVariant({
+                              ...selectedVariant,
+                              [variant?.name]: e.target.value,
                             });
-                          
+
                           }}
                         >
                           <option value="">Select</option>
                           {variant.active_variant_items.map((value, index) => {
-                            
+
                             return (
                               <option value={value.id} key={value.id}>
                                 {value.name}
@@ -246,7 +284,7 @@ export default function OrderForm({ isOpen, onClose, product }) {
                 <hr />
                 <h1>ডেলিভারি চার্জ সিলেক্ট করুন..</h1>
                 <div className=" flex flex-col">
-                  {[1, 2, 3].map((item, index) => {
+                  {delivery?.map((item, index) => {
                     return (
                       <div key={index} className=" border p-3 my-1 rounded-md">
                         <label
@@ -256,14 +294,16 @@ export default function OrderForm({ isOpen, onClose, product }) {
                           <div>
                             <input
                               type="radio"
-                              name="delivery_fee"
+                              name="shipping_method_id"
                               id={`delivery${index}`}
-                              value={60}
+                              value={item.id}
                               onChange={handleChange}
                             />
-                            <span className="ml-2">In Side Dhaka</span>
+                            <span className="ml-2">{item.shipping_rule}</span>
                           </div>
-                          <span>{60}</span>
+                          <span>
+                            <CurrencyConvert price={item.shipping_fee} />
+                          </span>
                         </label>
                       </div>
                     );
@@ -275,16 +315,16 @@ export default function OrderForm({ isOpen, onClose, product }) {
                 <div>
                   <p className=" flex justify-between items-center">
                     <strong>Sub Total</strong>
-                    <span>{100}</span>
-                  </p>
-                  <p className=" text-red-500  flex justify-between items-center">
-                    <strong>Discount</strong>
-                    <span>(-) {0}</span>
+                    <span>
+                      <CurrencyConvert price={subTotal} />
+                    </span>
                   </p>
                   <hr />
                   <p className=" text-lg font-semibold  flex justify-between items-center">
                     <span>Total</span>
-                    <span>{200}</span>
+                    <span>
+                      <CurrencyConvert price={total} />
+                    </span>
                   </p>
                 </div>
               </div>
