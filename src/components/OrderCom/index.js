@@ -84,7 +84,46 @@ function OrderCom() {
           });
       }
     } else {
-      router.push(`/login`);
+      // router.push(`/login`);
+      if (!resData) {
+        axios
+          .get(`${process.env.NEXT_PUBLIC_BASE_URL}api/user/order-show/${id}`)
+          .then((res) => {
+            setLoadingState(false);
+            setResData(res.data && res.data.order);
+            const status = () => {
+              switch (
+                res.data &&
+                res.data.order &&
+                parseInt(res.data.order.order_status)
+              ) {
+                case 0:
+                  return "Pending";
+                case 1:
+                  return "Progress";
+                case 2:
+                  return "Delivered";
+                case 3:
+                  return "Completed";
+                case 4:
+                  return "Declined";
+                default:
+                  return "Pending";
+              }
+            };
+            setOrderStatus(status);
+
+            // if (res.data && res.data.order) {
+            //
+            // } else {
+            //   router.push("/tracking-order");
+            // }
+          })
+          .catch((err) => {
+            setLoadingState(false);
+            console.log(err);
+          });
+      }
     }
   });
   const { currency_icon } = settings();
@@ -175,92 +214,109 @@ function OrderCom() {
             ]}
           />
           {!loadingState ? (
-              <>
-                {resData && (
-                    <div data-aos="fade-up" data-aos-duration="1000" className="w-full h-[168px]  bg-[#CBECFF] rounded-2xl mb-10 relative print:hidden">
-                      <div className="w-full px-10 flex justify-between pt-3 mb-7">
-                        <div>
-                          {resData.order_delivered_date && (
-                              <p className="text-base font-400">
-                                {ServeLangItem()?.Delivered_on}{" "}
-                                {resData.order_delivered_date}
-                              </p>
-                          )}
-                        </div>
-                        <div>
-                          {orderStatus === "Declined" && (
-                              <p className="text-base font-bold text-qred mr-10">
-                                {ServeLangItem()?.Your_order_is_declined}!
-                              </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex lg:space-x-[373px] space-x-[90px] rtl:space-x-reverse w-full h-full justify-center">
-                        <div className="relative">
-                          <div className="w-[30px] h-[30px] border-[8px] rounded-full border-qyellow bg-white relative z-20"></div>
-                          <p className="absolute -left-4 top-10 sm:text-base text-sm font-400">
-                            {ServeLangItem()?.Pending}
-                          </p>
-                        </div>
-                        {/*orderStatus*/}
-                        <div className="relative">
-                          <div
-                              className={`w-[30px] h-[30px] border-[8px] rounded-full  bg-white relative z-20 ${
-                                  orderStatus === "Progress" ||
-                                  orderStatus === "Delivered" ||
-                                  orderStatus === "Completed"
-                                      ? "border-qyellow"
-                                      : "border-qgray"
-                              }`}
-                          ></div>
-                          <div
-                              className={`lg:w-[400px] w-[100px] h-[8px] absolute ltr:lg:-left-[390px] ltr:-left-[92px] rtl:lg:-right-[390px] rtl:-right-[92px] top-[10px] z-10  ${
-                                  orderStatus === "Progress" ||
-                                  orderStatus === "Delivered" ||
-                                  orderStatus === "Completed"
-                                      ? "primary-bg"
-                                      : "bg-white"
-                              }`}
-                          ></div>
-                          <p className="absolute -left-4 top-10 sm:text-base text-sm font-400">
-                            {ServeLangItem()?.Progress}
-                          </p>
-                        </div>
-                        <div className="relative">
-                          <div
-                              className={`w-[30px] h-[30px] border-[8px] rounded-full bg-white  relative z-20 ${
-                                  orderStatus === "Delivered" || orderStatus === "Completed"
-                                      ? "border-qyellow"
-                                      : "border-qgray"
-                              }`}
-                          ></div>
-                          <div
-                              className={`lg:w-[400px] w-[100px] h-[8px] absolute ltr:lg:-left-[390px] ltr:-left-[92px] rtl:lg:-right-[390px] rtl:-right-[92px] top-[10px] z-10 ${
-                                  orderStatus === "Delivered" || orderStatus === "Completed"
-                                      ? "primary-bg"
-                                      : "bg-white"
-                              }`}
-                          ></div>
-                          <p className="absolute -left-4 top-10 sm:text-base text-sm font-400">
-                            {ServeLangItem()?.Delivered}
-                          </p>
-                        </div>
-                      </div>
+            <>
+              {resData ? (
+                <div
+                  data-aos="fade-up"
+                  data-aos-duration="1000"
+                  className="w-full h-[168px]  bg-[#CBECFF] rounded-2xl mb-10 relative print:hidden"
+                >
+                  <div className="w-full px-10 flex justify-between pt-3 mb-7">
+                    <div>
+                      {resData.order_delivered_date && (
+                        <p className="text-base font-400">
+                          {ServeLangItem()?.Delivered_on}{" "}
+                          {resData.order_delivered_date}
+                        </p>
+                      )}
                     </div>
-                )}
-              </>
-          ):(
-              <div className="w-full min-h-screen flex justify-center">
-               <div className="mt-20">
-                 <LoaderStyleTwo/>
-               </div>
+                    <div>
+                      {orderStatus === "Declined" && (
+                        <p className="text-base font-bold text-qred mr-10">
+                          {ServeLangItem()?.Your_order_is_declined}!
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex lg:space-x-[373px] space-x-[90px] rtl:space-x-reverse w-full h-full justify-center">
+                    <div className="relative">
+                      <div className="w-[30px] h-[30px] border-[8px] rounded-full border-qyellow bg-white relative z-20"></div>
+                      <p className="absolute -left-4 top-10 sm:text-base text-sm font-400">
+                        {ServeLangItem()?.Pending}
+                      </p>
+                    </div>
+                    {/*orderStatus*/}
+                    <div className="relative">
+                      <div
+                        className={`w-[30px] h-[30px] border-[8px] rounded-full  bg-white relative z-20 ${
+                          orderStatus === "Progress" ||
+                          orderStatus === "Delivered" ||
+                          orderStatus === "Completed"
+                            ? "border-qyellow"
+                            : "border-qgray"
+                        }`}
+                      ></div>
+                      <div
+                        className={`lg:w-[400px] w-[100px] h-[8px] absolute ltr:lg:-left-[390px] ltr:-left-[92px] rtl:lg:-right-[390px] rtl:-right-[92px] top-[10px] z-10  ${
+                          orderStatus === "Progress" ||
+                          orderStatus === "Delivered" ||
+                          orderStatus === "Completed"
+                            ? "primary-bg"
+                            : "bg-white"
+                        }`}
+                      ></div>
+                      <p className="absolute -left-4 top-10 sm:text-base text-sm font-400">
+                        {ServeLangItem()?.Progress}
+                      </p>
+                    </div>
+                    <div className="relative">
+                      <div
+                        className={`w-[30px] h-[30px] border-[8px] rounded-full bg-white  relative z-20 ${
+                          orderStatus === "Delivered" ||
+                          orderStatus === "Completed"
+                            ? "border-qyellow"
+                            : "border-qgray"
+                        }`}
+                      ></div>
+                      <div
+                        className={`lg:w-[400px] w-[100px] h-[8px] absolute ltr:lg:-left-[390px] ltr:-left-[92px] rtl:lg:-right-[390px] rtl:-right-[92px] top-[10px] z-10 ${
+                          orderStatus === "Delivered" ||
+                          orderStatus === "Completed"
+                            ? "primary-bg"
+                            : ""
+                        }`}
+                      ></div>
+                      <p className="absolute -left-4 top-10 sm:text-base text-sm font-400">
+                        {ServeLangItem()?.Delivered}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className=" h-[600px] flex flex-col justify-center items-center space-y-2">
+                    <h1 className=" text-3xl font-bold">Sorry your order not found!</h1>
+                    <p>Looks like you haven'e made your order yet.</p>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="w-full min-h-screen flex justify-center">
+              <div className="mt-20">
+                <LoaderStyleTwo />
               </div>
+            </div>
           )}
 
-
-            {resData && (
-                <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100" className="bg-white lg:p-10 p-3 rounded-xl">
-                   <div id="printSection">
+          {resData && (
+            <div
+              data-aos="fade-up"
+              data-aos-duration="1000"
+              data-aos-delay="100"
+              className="bg-white lg:p-10 p-3 rounded-xl"
+            >
+              <div id="printSection">
                 <div className="sm:flex justify-between items-center mb-4">
                   <div>
                     <h1 className="text-[26px] font-semibold text-qblack mb-2.5">
@@ -395,14 +451,16 @@ function OrderCom() {
                             <td className="text-center py-4 px-2">
                               <div className="flex space-x-1 items-center justify-center">
                                 <span className="text-[15px] font-normal">
-                                  <CurrencyConvert price={item.unit_price}/>
+                                  <CurrencyConvert price={item.unit_price} />
                                 </span>
                               </div>
                             </td>
                             <td className="text-center py-4 px-2">
                               <div className="flex space-x-1 items-center justify-center">
                                 <span className="text-[15px] font-normal">
-                                  <CurrencyConvert price={(item.unit_price * item.qty)}/>
+                                  <CurrencyConvert
+                                    price={item.unit_price * item.qty}
+                                  />
                                 </span>
                               </div>
                             </td>
@@ -429,9 +487,13 @@ function OrderCom() {
                         {ServeLangItem()?.SUBTOTAL}
                       </p>
                       <p className="text-sm text-qblack">
-                        <CurrencyConvert price={(parseFloat(resData.total_amount) -
+                        <CurrencyConvert
+                          price={
+                            parseFloat(resData.total_amount) -
                             parseFloat(resData.shipping_cost) +
-                            parseFloat(resData.coupon_coast))}/>
+                            parseFloat(resData.coupon_coast)
+                          }
+                        />
                       </p>
                     </div>
                     <div className="flex justify-between font-semibold w-[200px]">
@@ -440,7 +502,7 @@ function OrderCom() {
                       </p>
                       <p className="text-sm text-qred">
                         -
-                        <CurrencyConvert price={resData.coupon_coast}/>
+                        <CurrencyConvert price={resData.coupon_coast} />
                       </p>
                     </div>
                     <div className="flex justify-between font-semibold w-[200px]">
@@ -448,7 +510,7 @@ function OrderCom() {
                         (+) {ServeLangItem()?.Shipping_Cost}
                       </p>
                       <p className="text-sm text-qblack">
-                        +<CurrencyConvert price={resData.shipping_cost}/>
+                        +<CurrencyConvert price={resData.shipping_cost} />
                       </p>
                     </div>
                     <div className="w-full h-[1px] bg-qgray-border mt-4"></div>
@@ -457,15 +519,14 @@ function OrderCom() {
                         {ServeLangItem()?.Total_Paid}
                       </p>
                       <p className="text-lg text-qblack">
-                        <CurrencyConvert price={resData.total_amount}/>
+                        <CurrencyConvert price={resData.total_amount} />
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-                </div>
-            )}
-
+            </div>
+          )}
         </div>
       </div>
       {reviewModal && (
@@ -572,4 +633,5 @@ function OrderCom() {
   );
 }
 
-export default isAuth(OrderCom);
+// export default isAuth(OrderCom);
+export default OrderCom;

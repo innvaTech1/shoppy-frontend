@@ -86,4 +86,5 @@ function TrackingOrder() {
     </div>
   );
 }
-export default isAuth(TrackingOrder);
+// export default isAuth(TrackingOrder);
+export default TrackingOrder;
